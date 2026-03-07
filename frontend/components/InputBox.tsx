@@ -57,7 +57,7 @@ export default function InputBox({ isLoading, onSubmit, quickExamples }: InputBo
       <textarea
         value={draft}
         onChange={(event) => setDraft(event.target.value)}
-        placeholder="Describe your situation (age, occupation, income, location, category). Example: I am 28 years old, a farmer from Karnataka earning 180000 per year."
+        placeholder="Describe your situation (age, occupation, income, location, category)"
         className="min-h-24 w-full resize-y rounded-xl border border-[#cad6d4] bg-white p-3 text-sm leading-6 text-[var(--text-main)] outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
         onKeyDown={(event) => {
           if (event.key === "Enter" && !event.shiftKey) {

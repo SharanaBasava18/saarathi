@@ -10,7 +10,7 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   title: "SAARTHI - Welfare Recommender",
-  description: "AI-powered welfare scheme recommendation demo",
+  description: "AI-powered welfare scheme recommendation assistant",
 };
 
 export default function RootLayout({

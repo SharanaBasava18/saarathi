@@ -89,7 +89,7 @@ export default function SchemeCard({ scheme, rank }: SchemeCardProps) {
           rel="noreferrer"
           className="mt-1 inline-block text-sm font-medium text-[#0b5e8a] underline underline-offset-2"
         >
-          Apply on MyScheme Portal
+          Open Application Link
         </a>
       </div>
     </article>
