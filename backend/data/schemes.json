@@ -1,0 +1,921 @@
+[
+  {
+    "id": "SCH001",
+    "name": "PM Kisan Samman Nidhi",
+    "description": "Income support for small and marginal farmers through direct benefit transfer.",
+    "tags": [
+      "farmer",
+      "agriculture",
+      "income support",
+      "rural"
+    ],
+    "eligibility": {
+      "occupations": [
+        "farmer"
+      ],
+      "max_income": 300000
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH002",
+    "name": "Ayushman Bharat PM-JAY",
+    "description": "Health insurance cover for economically vulnerable families.",
+    "tags": [
+      "health",
+      "insurance",
+      "low income",
+      "family"
+    ],
+    "eligibility": {
+      "max_income": 250000
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH003",
+    "name": "Pradhan Mantri Awas Yojana Gramin",
+    "description": "Housing assistance for rural poor households.",
+    "tags": [
+      "housing",
+      "rural",
+      "poverty",
+      "home"
+    ],
+    "eligibility": {
+      "max_income": 300000
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH004",
+    "name": "Pradhan Mantri Awas Yojana Urban",
+    "description": "Affordable housing support for urban low-income families.",
+    "tags": [
+      "housing",
+      "urban",
+      "loan subsidy",
+      "family"
+    ],
+    "eligibility": {
+      "max_income": 600000
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH005",
+    "name": "National Scholarship for SC Students",
+    "description": "Scholarship assistance for SC category students pursuing higher education.",
+    "tags": [
+      "scholarship",
+      "education",
+      "sc",
+      "student"
+    ],
+    "eligibility": {
+      "categories": [
+        "SC"
+      ],
+      "occupations": [
+        "student"
+      ],
+      "max_income": 250000
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH006",
+    "name": "National Scholarship for ST Students",
+    "description": "Financial aid for ST students in schools and colleges.",
+    "tags": [
+      "scholarship",
+      "education",
+      "st",
+      "student"
+    ],
+    "eligibility": {
+      "categories": [
+        "ST"
+      ],
+      "occupations": [
+        "student"
+      ],
+      "max_income": 250000
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH007",
+    "name": "OBC Post Matric Scholarship",
+    "description": "Post-matric scholarship for OBC category students.",
+    "tags": [
+      "scholarship",
+      "obc",
+      "education",
+      "student"
+    ],
+    "eligibility": {
+      "categories": [
+        "OBC"
+      ],
+      "occupations": [
+        "student"
+      ],
+      "max_income": 250000
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH008",
+    "name": "EWS Merit Scholarship",
+    "description": "Scholarship for economically weaker section students with merit performance.",
+    "tags": [
+      "ews",
+      "education",
+      "merit",
+      "student"
+    ],
+    "eligibility": {
+      "categories": [
+        "EWS"
+      ],
+      "occupations": [
+        "student"
+      ],
+      "max_income": 400000
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH009",
+    "name": "Sukanya Samriddhi Yojana",
+    "description": "Savings scheme for girl child future education and marriage.",
+    "tags": [
+      "girl child",
+      "savings",
+      "women",
+      "education"
+    ],
+    "eligibility": {
+      "genders": [
+        "female"
+      ],
+      "max_age": 18
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH010",
+    "name": "Janani Suraksha Yojana",
+    "description": "Maternal healthcare incentive for pregnant women from low-income families.",
+    "tags": [
+      "maternal health",
+      "women",
+      "pregnancy",
+      "health"
+    ],
+    "eligibility": {
+      "genders": [
+        "female"
+      ],
+      "occupations": [
+        "pregnant"
+      ],
+      "max_income": 300000
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH011",
+    "name": "Pradhan Mantri Matru Vandana Yojana",
+    "description": "Maternity benefit for first-time mothers during pregnancy and lactation.",
+    "tags": [
+      "maternity",
+      "women",
+      "health",
+      "nutrition"
+    ],
+    "eligibility": {
+      "genders": [
+        "female"
+      ],
+      "occupations": [
+        "pregnant"
+      ],
+      "max_income": 500000
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH012",
+    "name": "Stand Up India",
+    "description": "Bank loans for SC, ST and women entrepreneurs.",
+    "tags": [
+      "entrepreneurship",
+      "loan",
+      "business",
+      "women"
+    ],
+    "eligibility": {
+      "categories": [
+        "SC",
+        "ST"
+      ],
+      "occupations": [
+        "business"
+      ],
+      "min_age": 18
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH013",
+    "name": "Mudra Yojana Shishu",
+    "description": "Micro-credit support for small startups and self-employed workers.",
+    "tags": [
+      "loan",
+      "self employed",
+      "microfinance",
+      "business"
+    ],
+    "eligibility": {
+      "occupations": [
+        "self employed",
+        "business"
+      ],
+      "min_age": 18
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH014",
+    "name": "Mudra Yojana Kishor",
+    "description": "Working capital assistance for growing micro enterprises.",
+    "tags": [
+      "loan",
+      "enterprise",
+      "self employed",
+      "business"
+    ],
+    "eligibility": {
+      "occupations": [
+        "self employed",
+        "business"
+      ],
+      "min_age": 18
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH015",
+    "name": "PM SVANidhi",
+    "description": "Collateral-free loan support for street vendors.",
+    "tags": [
+      "street vendor",
+      "loan",
+      "self employed",
+      "urban"
+    ],
+    "eligibility": {
+      "occupations": [
+        "self employed",
+        "business"
+      ],
+      "max_income": 400000
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH016",
+    "name": "Atal Pension Yojana",
+    "description": "Pension scheme for unorganized sector workers.",
+    "tags": [
+      "pension",
+      "laborer",
+      "social security",
+      "retirement"
+    ],
+    "eligibility": {
+      "min_age": 18,
+      "max_age": 40
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH017",
+    "name": "PM Shram Yogi Maandhan",
+    "description": "Voluntary pension for unorganized workers with low monthly income.",
+    "tags": [
+      "pension",
+      "laborer",
+      "unorganized",
+      "income"
+    ],
+    "eligibility": {
+      "occupations": [
+        "laborer"
+      ],
+      "max_income": 180000,
+      "min_age": 18,
+      "max_age": 40
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH018",
+    "name": "National Old Age Pension Scheme",
+    "description": "Monthly pension for senior citizens living below poverty line.",
+    "tags": [
+      "senior citizen",
+      "pension",
+      "social welfare",
+      "bpl"
+    ],
+    "eligibility": {
+      "occupations": [
+        "senior citizen"
+      ],
+      "min_age": 60,
+      "max_income": 200000
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH019",
+    "name": "Widow Pension Scheme",
+    "description": "Social pension for widowed women with limited income.",
+    "tags": [
+      "widow",
+      "women",
+      "pension",
+      "social support"
+    ],
+    "eligibility": {
+      "genders": [
+        "female"
+      ],
+      "is_single_woman": true,
+      "max_income": 250000
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH020",
+    "name": "National Disability Pension Scheme",
+    "description": "Financial support for persons with disabilities from vulnerable households.",
+    "tags": [
+      "disability",
+      "pension",
+      "support",
+      "health"
+    ],
+    "eligibility": {
+      "requires_disability": true,
+      "max_income": 250000
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH021",
+    "name": "Accessible India Campaign Benefits",
+    "description": "Assistance for mobility and accessibility support devices for persons with disability.",
+    "tags": [
+      "disability",
+      "assistive devices",
+      "inclusion",
+      "mobility"
+    ],
+    "eligibility": {
+      "requires_disability": true
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH022",
+    "name": "Scholarship for Students with Disabilities",
+    "description": "Educational support for differently-abled students.",
+    "tags": [
+      "disability",
+      "scholarship",
+      "student",
+      "education"
+    ],
+    "eligibility": {
+      "requires_disability": true,
+      "occupations": [
+        "student"
+      ],
+      "max_income": 300000
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH023",
+    "name": "National Means-cum-Merit Scholarship",
+    "description": "Merit scholarship for students from economically weaker families.",
+    "tags": [
+      "scholarship",
+      "merit",
+      "student",
+      "school"
+    ],
+    "eligibility": {
+      "occupations": [
+        "student"
+      ],
+      "max_income": 350000
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH024",
+    "name": "PM Poshan Support",
+    "description": "Nutrition support for school-going children.",
+    "tags": [
+      "nutrition",
+      "student",
+      "school",
+      "children"
+    ],
+    "eligibility": {
+      "occupations": [
+        "student"
+      ],
+      "max_age": 18
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH025",
+    "name": "Skill India Training Voucher",
+    "description": "Short-term skill development programs for youth and unemployed.",
+    "tags": [
+      "skill development",
+      "unemployed",
+      "training",
+      "youth"
+    ],
+    "eligibility": {
+      "occupations": [
+        "unemployed",
+        "student"
+      ],
+      "min_age": 18,
+      "max_age": 35
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH026",
+    "name": "PM Kaushal Vikas Yojana",
+    "description": "Industry-relevant skilling and certification for job seekers.",
+    "tags": [
+      "skill development",
+      "employment",
+      "training",
+      "unemployed"
+    ],
+    "eligibility": {
+      "occupations": [
+        "unemployed",
+        "student"
+      ],
+      "min_age": 18,
+      "max_age": 45
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH027",
+    "name": "National Apprenticeship Promotion Scheme",
+    "description": "Stipend support for apprentices in technical and industrial sectors.",
+    "tags": [
+      "apprenticeship",
+      "student",
+      "youth",
+      "employment"
+    ],
+    "eligibility": {
+      "occupations": [
+        "student",
+        "unemployed"
+      ],
+      "min_age": 18,
+      "max_age": 30
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH028",
+    "name": "Deen Dayal Upadhyaya Grameen Kaushalya Yojana",
+    "description": "Placement-linked skill training for rural poor youth.",
+    "tags": [
+      "rural",
+      "skill",
+      "youth",
+      "employment"
+    ],
+    "eligibility": {
+      "occupations": [
+        "unemployed"
+      ],
+      "min_age": 15,
+      "max_age": 35,
+      "max_income": 300000
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH029",
+    "name": "National Rural Livelihood Mission",
+    "description": "Self-help group and livelihood promotion for rural women and poor households.",
+    "tags": [
+      "rural",
+      "women",
+      "self help group",
+      "livelihood"
+    ],
+    "eligibility": {
+      "max_income": 300000
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH030",
+    "name": "Urban Livelihood Mission",
+    "description": "Livelihood and shelter support for urban poor and homeless.",
+    "tags": [
+      "urban poor",
+      "livelihood",
+      "shelter",
+      "employment"
+    ],
+    "eligibility": {
+      "max_income": 300000
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH031",
+    "name": "Kisan Credit Card",
+    "description": "Short-term credit for farmers to manage crop expenses.",
+    "tags": [
+      "farmer",
+      "credit",
+      "agriculture",
+      "loan"
+    ],
+    "eligibility": {
+      "occupations": [
+        "farmer"
+      ],
+      "min_age": 18
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH032",
+    "name": "PM Fasal Bima Yojana",
+    "description": "Crop insurance to protect farmers against crop loss and natural disasters.",
+    "tags": [
+      "farmer",
+      "insurance",
+      "crop",
+      "risk"
+    ],
+    "eligibility": {
+      "occupations": [
+        "farmer"
+      ]
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH033",
+    "name": "Soil Health Card Scheme",
+    "description": "Soil testing and advisory services for farmers.",
+    "tags": [
+      "farmer",
+      "agriculture",
+      "soil",
+      "advisory"
+    ],
+    "eligibility": {
+      "occupations": [
+        "farmer"
+      ]
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH034",
+    "name": "National Fisheries Development Support",
+    "description": "Infrastructure and livelihood support for fishermen communities.",
+    "tags": [
+      "fisherman",
+      "livelihood",
+      "subsidy",
+      "coastal"
+    ],
+    "eligibility": {
+      "occupations": [
+        "fisherman"
+      ],
+      "max_income": 400000
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH035",
+    "name": "PM Matsya Sampada Yojana",
+    "description": "Financial assistance for fisheries value chain and aquaculture workers.",
+    "tags": [
+      "fisherman",
+      "aquaculture",
+      "loan",
+      "subsidy"
+    ],
+    "eligibility": {
+      "occupations": [
+        "fisherman"
+      ],
+      "min_age": 18
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH036",
+    "name": "National Horticulture Mission Subsidy",
+    "description": "Subsidy support for horticulture farmers and orchard development.",
+    "tags": [
+      "farmer",
+      "horticulture",
+      "subsidy",
+      "agriculture"
+    ],
+    "eligibility": {
+      "occupations": [
+        "farmer"
+      ]
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH037",
+    "name": "Ujjwala Yojana",
+    "description": "LPG connection support for women in low-income households.",
+    "tags": [
+      "women",
+      "lpg",
+      "household",
+      "subsidy"
+    ],
+    "eligibility": {
+      "genders": [
+        "female"
+      ],
+      "max_income": 250000
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH038",
+    "name": "Free Sewing Machine Scheme",
+    "description": "Skill and tool support for women interested in self-employment tailoring work.",
+    "tags": [
+      "women",
+      "self employed",
+      "toolkit",
+      "livelihood"
+    ],
+    "eligibility": {
+      "genders": [
+        "female"
+      ],
+      "max_income": 300000
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH039",
+    "name": "Working Women Hostel Scheme",
+    "description": "Safe hostel support for working women in urban areas.",
+    "tags": [
+      "women",
+      "hostel",
+      "urban",
+      "employment"
+    ],
+    "eligibility": {
+      "genders": [
+        "female"
+      ],
+      "min_age": 18
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH040",
+    "name": "Minority Scholarship Pre-Matric",
+    "description": "Scholarship for minority students in school education.",
+    "tags": [
+      "minority",
+      "scholarship",
+      "student",
+      "school"
+    ],
+    "eligibility": {
+      "requires_minority": true,
+      "occupations": [
+        "student"
+      ],
+      "max_income": 250000
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH041",
+    "name": "Minority Scholarship Post-Matric",
+    "description": "Financial support for minority students in higher classes and college.",
+    "tags": [
+      "minority",
+      "scholarship",
+      "student",
+      "college"
+    ],
+    "eligibility": {
+      "requires_minority": true,
+      "occupations": [
+        "student"
+      ],
+      "max_income": 250000
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH042",
+    "name": "Nai Udaan Minority Coaching Support",
+    "description": "Coaching assistance for minority youth preparing for competitive exams.",
+    "tags": [
+      "minority",
+      "coaching",
+      "student",
+      "youth"
+    ],
+    "eligibility": {
+      "requires_minority": true,
+      "occupations": [
+        "student",
+        "unemployed"
+      ],
+      "max_income": 400000
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH043",
+    "name": "PM Vishwakarma Toolkit Support",
+    "description": "Support for traditional artisans with training and modern toolkits.",
+    "tags": [
+      "artisan",
+      "self employed",
+      "toolkit",
+      "credit"
+    ],
+    "eligibility": {
+      "occupations": [
+        "artisan",
+        "self employed"
+      ],
+      "min_age": 18
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH044",
+    "name": "National Handloom Development Assistance",
+    "description": "Support for handloom weavers and artisan producer groups.",
+    "tags": [
+      "artisan",
+      "handloom",
+      "weaver",
+      "subsidy"
+    ],
+    "eligibility": {
+      "occupations": [
+        "artisan"
+      ],
+      "max_income": 400000
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH045",
+    "name": "National SC Finance Development Support",
+    "description": "Subsidized credit and entrepreneurship support for SC beneficiaries.",
+    "tags": [
+      "sc",
+      "loan",
+      "entrepreneurship",
+      "business"
+    ],
+    "eligibility": {
+      "categories": [
+        "SC"
+      ],
+      "occupations": [
+        "self employed",
+        "business"
+      ],
+      "min_age": 18
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH046",
+    "name": "National ST Finance Development Support",
+    "description": "Livelihood and enterprise support for ST beneficiaries.",
+    "tags": [
+      "st",
+      "livelihood",
+      "enterprise",
+      "loan"
+    ],
+    "eligibility": {
+      "categories": [
+        "ST"
+      ],
+      "occupations": [
+        "self employed",
+        "business"
+      ],
+      "min_age": 18
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH047",
+    "name": "PM Employment Generation Programme",
+    "description": "Credit-linked subsidy for micro-enterprises and first-time entrepreneurs.",
+    "tags": [
+      "employment",
+      "micro enterprise",
+      "loan",
+      "business"
+    ],
+    "eligibility": {
+      "occupations": [
+        "self employed",
+        "business",
+        "unemployed"
+      ],
+      "min_age": 18
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH048",
+    "name": "Senior Citizens Savings Support",
+    "description": "Savings and guaranteed return products for retired citizens.",
+    "tags": [
+      "senior citizen",
+      "savings",
+      "retirement",
+      "income"
+    ],
+    "eligibility": {
+      "min_age": 60
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH049",
+    "name": "National Family Benefit Scheme",
+    "description": "One-time assistance to bereaved low-income families after death of breadwinner.",
+    "tags": [
+      "family",
+      "social security",
+      "support",
+      "low income"
+    ],
+    "eligibility": {
+      "max_income": 250000
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  },
+  {
+    "id": "SCH050",
+    "name": "Ration Support under National Food Security",
+    "description": "Subsidized food grains for eligible low-income households.",
+    "tags": [
+      "food security",
+      "ration",
+      "low income",
+      "household"
+    ],
+    "eligibility": {
+      "max_income": 300000
+    },
+    "apply_link": "https://www.myscheme.gov.in/"
+  }
+]
