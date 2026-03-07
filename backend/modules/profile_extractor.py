@@ -3,8 +3,17 @@ from typing import Any
 
 
 INCOME_PATTERNS = [
-    r"(?:income|earns?)\s*(?:of|is)?\s*(?:rs\.?|inr)?\s*([\d,]+)",
-    r"([\d,]+)\s*(?:rs\.?|inr)\s*(?:per month|monthly|annually|per year)?",
+    r"annual\s*income\s*(?:is|:)?\s*(?:rs\.?|inr)?\s*([\d,]+)",
+    r"income\s*(?:is|:)?\s*(?:rs\.?|inr)?\s*([\d,]+)",
+    r"earning\s*(?:is|:)?\s*(?:rs\.?|inr)?\s*([\d,]+)",
+    r"salary\s*(?:is|:)?\s*(?:rs\.?|inr)?\s*([\d,]+)",
+    r"([\d,]+)\s*(?:rs\.?|inr)?\s*per\s*year",
+]
+
+AGE_PATTERNS = [
+    r"(\d{1,2})\s*year[s]?\s*old",
+    r"age\s*(?:is|:)?\s*(\d{1,2})",
+    r"i\s*am\s*(\d{1,2})",
 ]
 
 
@@ -19,9 +28,10 @@ def _extract_income(text: str) -> int | None:
 
 
 def _extract_age(text: str) -> int | None:
-    age_match = re.search(r"(?:age\s*(?:is|:)?\s*|i am\s*)(\d{1,2})", text, flags=re.IGNORECASE)
-    if age_match:
-        return int(age_match.group(1))
+    for pattern in AGE_PATTERNS:
+        age_match = re.search(pattern, text, flags=re.IGNORECASE)
+        if age_match:
+            return int(age_match.group(1))
     return None
 
 

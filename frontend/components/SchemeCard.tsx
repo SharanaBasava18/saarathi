@@ -15,20 +15,35 @@ type SchemeCardProps = {
   rank: number;
 };
 
+const getMatchMeta = (score: number): { label: string; className: string } => {
+  if (score >= 80) {
+    return { label: "High Match", className: "bg-green-100 text-green-700" };
+  }
+
+  if (score >= 60) {
+    return { label: "Medium Match", className: "bg-yellow-100 text-yellow-700" };
+  }
+
+  return { label: "Low Match", className: "bg-red-100 text-red-700" };
+};
+
 export default function SchemeCard({ scheme, rank }: SchemeCardProps) {
+  const matchMeta = getMatchMeta(scheme.match_score);
+
   return (
-    <article className="rounded-xl border border-[#d7e1df] bg-white p-3 sm:p-4">
-      <div className="mb-3 flex items-start justify-between gap-4">
+    <article className="rounded-xl border border-[#d7e1df] bg-white p-4 shadow-sm sm:p-5">
+      <div className="mb-4 flex items-start justify-between gap-4">
         <div>
           <p className="mb-1 text-xs font-semibold uppercase tracking-[0.16em] text-accent">Top {rank}</p>
-          <h3 className="text-base font-bold text-[var(--text-main)] sm:text-lg">{scheme.name}</h3>
+          <h3 className="text-base font-bold leading-snug text-[var(--text-main)] sm:text-lg">{scheme.name}</h3>
         </div>
-        <span className="rounded-full bg-[#ecf7f5] px-3 py-1 text-xs font-semibold text-[#0f5f56]">
-          Eligibility Match: {Math.round(scheme.match_score)}%
-        </span>
+        <div className="flex flex-col items-end gap-1">
+          <span className={`rounded-full px-3 py-1 text-xs font-semibold ${matchMeta.className}`}>{matchMeta.label}</span>
+          <span className="text-xs font-medium text-[var(--text-soft)]">{Math.round(scheme.match_score)}% score</span>
+        </div>
       </div>
 
-      <p className="mb-3 text-sm leading-6 text-[var(--text-soft)]">
+      <p className="mb-4 text-sm leading-6 text-[var(--text-soft)]">
         {scheme.description ?? "No description available."}
       </p>
 
@@ -39,14 +54,14 @@ export default function SchemeCard({ scheme, rank }: SchemeCardProps) {
 
       {scheme.estimated_benefit !== undefined && scheme.estimated_benefit !== null ? (
         <div className="mt-3 rounded-lg border border-[#dbe4f1] bg-[#f7faff] p-3">
-          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#355a57]">Estimated Benefit</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#355a57]">📈 Estimated Benefit</p>
           <p className="mt-1 text-sm text-[var(--text-main)]">₹{scheme.estimated_benefit.toLocaleString()} per year</p>
         </div>
       ) : null}
 
       {scheme.documents_required && scheme.documents_required.length > 0 ? (
         <div className="mt-3 rounded-lg border border-[#dbe4f1] bg-[#f7faff] p-3">
-          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#355a57]">Documents Required</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#355a57]">📄 Documents Required</p>
           <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-[var(--text-main)]">
             {scheme.documents_required.map((document) => (
               <li key={`${scheme.scheme_id}-${document}`}>{document}</li>
@@ -57,7 +72,7 @@ export default function SchemeCard({ scheme, rank }: SchemeCardProps) {
 
       {scheme.application_steps && scheme.application_steps.length > 0 ? (
         <div className="mt-3 rounded-lg border border-[#dbe4f1] bg-[#f7faff] p-3">
-          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#355a57]">Application Steps</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#355a57]">🪜 Application Steps</p>
           <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm text-[var(--text-main)]">
             {scheme.application_steps.map((step, index) => (
               <li key={`${scheme.scheme_id}-${index + 1}`}>{step}</li>

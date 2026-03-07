@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import InputBox from "@/components/InputBox";
 import SchemeCard from "@/components/SchemeCard";
@@ -44,20 +44,21 @@ type ChatMessage = {
 };
 
 const QUICK_EXAMPLES = [
-  { label: "Farmer", message: "I am a small farmer with low income" },
-  { label: "Student", message: "I am a student from a low income family" },
-  { label: "Widow", message: "I am a widow living in a rural area" },
-  { label: "Unemployed", message: "I am unemployed and looking for government support" },
+  { label: "👨‍🌾 Farmer", message: "I am a small farmer with low income" },
+  { label: "🎓 Student", message: "I am a student from a low income family" },
+  { label: "👩 Widow", message: "I am a widow living in a rural area" },
+  { label: "💼 Unemployed", message: "I am unemployed and looking for government support" },
 ];
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000";
 
 export default function Home() {
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: "intro",
       role: "assistant",
-      text: "Tell me about your situation and I will suggest the top 3 welfare schemes you may qualify for.",
+      text: "Describe your situation and SAARTHI will identify government welfare schemes you may qualify for.",
     },
   ]);
   const [loading, setLoading] = useState(false);
@@ -130,104 +131,105 @@ export default function Home() {
 
   const loadingBubble = useMemo(
     () => (
-      <div className="max-w-[88%] rounded-2xl border border-[#d8e4e2] bg-[var(--panel)] px-4 py-3 text-sm text-[var(--text-soft)] sm:max-w-[75%]">
-        SAARTHI is thinking...
+      <div className="max-w-[88%] animate-pulse rounded-xl border border-[#e2e8f0] bg-white px-4 py-3 text-sm text-[var(--text-soft)] shadow-sm sm:max-w-[75%]">
+        Analyzing your profile...
       </div>
     ),
     []
   );
 
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, [messages, loading]);
+
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-5xl flex-col px-4 py-8 sm:px-6 sm:py-10">
+    <main className="mx-auto flex min-h-screen w-full max-w-5xl flex-col bg-gradient-to-br from-indigo-50 via-white to-cyan-50 px-4 py-8 sm:px-6 sm:py-10">
       <section className="mb-5 rounded-card border border-[#dbe3e2] bg-[var(--panel)] p-6 shadow-card sm:p-7">
         <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-coral">Hackathon Demo</p>
         <h1 className="text-2xl font-bold leading-tight text-[var(--text-main)] sm:text-3xl">SAARTHI Chat Assistant</h1>
         <p className="mt-3 max-w-2xl text-sm leading-6 text-[var(--text-soft)] sm:text-base">
-          Chat in plain language. SAARTHI analyzes your profile and replies with the top 3 schemes.
+          Describe your situation in plain language and get a clear, personalized welfare scheme shortlist.
         </p>
       </section>
 
-      <section className="mb-4 flex-1 space-y-4 overflow-y-auto rounded-card border border-[#d8e4e2] bg-white/70 p-4 sm:p-5">
+      <section className="mb-4 flex-1 space-y-4 overflow-y-auto rounded-card border border-[#d8e4e2] bg-white/80 p-4 sm:p-5">
         {messages.map((message) => {
           const isUser = message.role === "user";
 
           return (
             <div key={message.id} className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
-              <div
-                className={
-                  isUser
-                    ? "max-w-[88%] rounded-2xl bg-[#0f8a7a] px-4 py-3 text-sm text-white sm:max-w-[75%]"
-                    : "max-w-[88%] rounded-2xl border border-[#d8e4e2] bg-[var(--panel)] px-4 py-3 text-sm text-[var(--text-main)] sm:max-w-[75%]"
-                }
-              >
-                <p className="whitespace-pre-wrap leading-6">{message.text}</p>
+              <div className={isUser ? "flex max-w-[88%] flex-row-reverse items-start gap-2 sm:max-w-[75%]" : "flex max-w-[88%] items-start gap-2 sm:max-w-[75%]"}>
+                <span className="mt-1 text-base">{isUser ? "👤" : "🤖"}</span>
+                <div
+                  className={
+                    isUser
+                      ? "rounded-xl bg-[#edf5ff] px-4 py-3 text-sm text-[#16324f] shadow-sm"
+                      : "rounded-xl border border-[#e2e8f0] bg-white px-4 py-3 text-sm text-[var(--text-main)] shadow-sm"
+                  }
+                >
+                  <p className="whitespace-pre-wrap leading-6">{message.text}</p>
 
-                {message.detectedProfile ? (
-                  <div className="mt-3 rounded-lg border border-[#dce7e4] bg-[#f8fbfa] p-3">
-                    <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#355a57]">
-                      Detected Citizen Profile
-                    </p>
-                    <div className="mt-2 space-y-1 text-xs text-[var(--text-main)] sm:text-sm">
-                      <p>Occupation: {message.detectedProfile.occupation ?? "N/A"}</p>
-                      <p>
-                        Income:{" "}
-                        {message.detectedProfile.income !== null ? message.detectedProfile.income : "N/A"}
-                      </p>
-                      <p>Age: {message.detectedProfile.age !== null ? message.detectedProfile.age : "N/A"}</p>
-                      <p>State: {message.detectedProfile.state ?? "N/A"}</p>
-                      {message.detectedProfile.category ? <p>Category: {message.detectedProfile.category}</p> : null}
-                    </div>
-                  </div>
-                ) : null}
-
-                {message.eligibilityImprovements && message.eligibilityImprovements.length > 0 ? (
-                  <div className="mt-3 rounded-lg border border-[#dce7e4] bg-[#f8fbfa] p-3">
-                    <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#355a57]">
-                      Improve Your Eligibility
-                    </p>
-                    <p className="mt-2 text-xs text-[var(--text-main)] sm:text-sm">
-                      To increase your chances of qualifying for more schemes:
-                    </p>
-                    <ul className="mt-2 list-disc space-y-1 pl-5 text-xs text-[var(--text-main)] sm:text-sm">
-                      {message.eligibilityImprovements.map((improvement) => (
-                        <li key={`${message.id}-${improvement}`}>{improvement}</li>
-                      ))}
-                    </ul>
-                  </div>
-                ) : null}
-
-                {message.recommendations ? (
-                  <div className="mt-3 space-y-3">
-                    {message.benefitsSummary ? (
-                      <div className="rounded-lg border border-[#dce7e4] bg-[#f8fbfa] p-3">
-                        <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#355a57]">
-                          Potential Benefits Summary
-                        </p>
-                        <div className="mt-2 space-y-1 text-xs text-[var(--text-main)] sm:text-sm">
-                          <p>
-                            Total estimated benefits: INR {message.benefitsSummary.total_monetary_benefits.toLocaleString()}
-                          </p>
-                          <p>
-                            Major support types:{" "}
-                            {message.benefitsSummary.major_support_types.length > 0
-                              ? message.benefitsSummary.major_support_types.join(", ")
-                              : "Not identified"}
-                          </p>
-                        </div>
+                  {message.detectedProfile ? (
+                    <div className="mt-3 rounded-lg border border-[#dce7e4] bg-[#f8fbfa] p-3">
+                      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#355a57]">👤 Detected Citizen Profile</p>
+                      <div className="mt-2 space-y-1 text-xs text-[var(--text-main)] sm:text-sm">
+                        <p>Occupation: {message.detectedProfile.occupation ?? "N/A"}</p>
+                        <p>Income: {message.detectedProfile.income !== null ? message.detectedProfile.income : "N/A"}</p>
+                        <p>Age: {message.detectedProfile.age !== null ? message.detectedProfile.age : "N/A"}</p>
+                        <p>State: {message.detectedProfile.state ?? "N/A"}</p>
+                        {message.detectedProfile.category ? <p>Category: {message.detectedProfile.category}</p> : null}
                       </div>
-                    ) : null}
+                    </div>
+                  ) : null}
 
-                    {message.recommendations.map((scheme, index) => (
-                      <SchemeCard key={`${message.id}-${scheme.scheme_id}`} scheme={scheme} rank={index + 1} />
-                    ))}
-                  </div>
-                ) : null}
+                  {message.eligibilityImprovements && message.eligibilityImprovements.length > 0 ? (
+                    <div className="mt-3 rounded-lg border border-[#dce7e4] bg-[#f8fbfa] p-3">
+                      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#355a57]">Improve Your Eligibility</p>
+                      <p className="mt-2 text-xs text-[var(--text-main)] sm:text-sm">
+                        To increase your chances of qualifying for more schemes:
+                      </p>
+                      <ul className="mt-2 list-disc space-y-1 pl-5 text-xs text-[var(--text-main)] sm:text-sm">
+                        {message.eligibilityImprovements.map((improvement) => (
+                          <li key={`${message.id}-${improvement}`}>{improvement}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : null}
+
+                  {message.recommendations ? (
+                    <div className="mt-3 space-y-3">
+                      {message.benefitsSummary ? (
+                        <div className="rounded-lg border border-[#dce7e4] bg-[#f8fbfa] p-3">
+                          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#355a57]">
+                            Potential Benefits Summary
+                          </p>
+                          <div className="mt-2 space-y-1 text-xs text-[var(--text-main)] sm:text-sm">
+                            <p>
+                              Total estimated benefits: INR {message.benefitsSummary.total_monetary_benefits.toLocaleString()}
+                            </p>
+                            <p>
+                              Major support types:{" "}
+                              {message.benefitsSummary.major_support_types.length > 0
+                                ? message.benefitsSummary.major_support_types.join(", ")
+                                : "Not identified"}
+                            </p>
+                          </div>
+                        </div>
+                      ) : null}
+
+                      {message.recommendations.map((scheme, index) => (
+                        <SchemeCard key={`${message.id}-${scheme.scheme_id}`} scheme={scheme} rank={index + 1} />
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
               </div>
             </div>
           );
         })}
 
         {loading ? <div className="flex justify-start">{loadingBubble}</div> : null}
+        <div ref={messagesEndRef} />
       </section>
 
       <InputBox isLoading={loading} onSubmit={handleSubmit} quickExamples={QUICK_EXAMPLES} />
