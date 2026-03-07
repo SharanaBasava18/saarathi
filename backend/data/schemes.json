@@ -15,7 +15,20 @@
       ],
       "max_income": 300000
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 6000,
+    "application_steps": [
+      "Visit the PM-Kisan portal or nearest CSC",
+      "Register with Aadhaar and bank account details",
+      "Verify land ownership details",
+      "Submit and track application status"
+    ]
   },
   {
     "id": "SCH002",
@@ -30,7 +43,20 @@
     "eligibility": {
       "max_income": 250000
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 500000,
+    "application_steps": [
+      "Visit the scheme portal or nearest empanelled center",
+      "Verify eligibility using Aadhaar or ration card",
+      "Complete eKYC and document verification",
+      "Generate card or submit final enrollment"
+    ]
   },
   {
     "id": "SCH003",
@@ -45,7 +71,20 @@
     "eligibility": {
       "max_income": 300000
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 120000,
+    "application_steps": [
+      "Visit the PMAY portal or local municipality office",
+      "Register household details",
+      "Upload identity and income proof",
+      "Submit for verification and approval"
+    ]
   },
   {
     "id": "SCH004",
@@ -60,7 +99,20 @@
     "eligibility": {
       "max_income": 600000
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 120000,
+    "application_steps": [
+      "Visit the PMAY portal or local municipality office",
+      "Register household details",
+      "Upload identity and income proof",
+      "Submit for verification and approval"
+    ]
   },
   {
     "id": "SCH005",
@@ -81,7 +133,20 @@
       ],
       "max_income": 250000
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the National Scholarship Portal",
+      "Create a student account",
+      "Upload academic and income documents",
+      "Submit the scholarship application"
+    ]
   },
   {
     "id": "SCH006",
@@ -102,7 +167,20 @@
       ],
       "max_income": 250000
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the National Scholarship Portal",
+      "Create a student account",
+      "Upload academic and income documents",
+      "Submit the scholarship application"
+    ]
   },
   {
     "id": "SCH007",
@@ -123,7 +201,20 @@
       ],
       "max_income": 250000
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the National Scholarship Portal",
+      "Create a student account",
+      "Upload academic and income documents",
+      "Submit the scholarship application"
+    ]
   },
   {
     "id": "SCH008",
@@ -144,7 +235,20 @@
       ],
       "max_income": 400000
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the National Scholarship Portal",
+      "Create a student account",
+      "Upload academic and income documents",
+      "Submit the scholarship application"
+    ]
   },
   {
     "id": "SCH009",
@@ -162,7 +266,20 @@
       ],
       "max_age": 18
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 15000,
+    "application_steps": [
+      "Visit the official scheme portal",
+      "Register with your mobile number and Aadhaar",
+      "Upload required documents",
+      "Submit the application and track status"
+    ]
   },
   {
     "id": "SCH010",
@@ -183,7 +300,20 @@
       ],
       "max_income": 300000
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 1400,
+    "application_steps": [
+      "Visit the official scheme portal",
+      "Register with your mobile number and Aadhaar",
+      "Upload required documents",
+      "Submit the application and track status"
+    ]
   },
   {
     "id": "SCH011",
@@ -204,7 +334,20 @@
       ],
       "max_income": 500000
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 5000,
+    "application_steps": [
+      "Visit the official scheme portal",
+      "Register with your mobile number and Aadhaar",
+      "Upload required documents",
+      "Submit the application and track status"
+    ]
   },
   {
     "id": "SCH012",
@@ -226,7 +369,20 @@
       ],
       "min_age": 18
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 1000000,
+    "application_steps": [
+      "Visit the official scheme portal or partner bank",
+      "Fill the online loan application form",
+      "Upload KYC and business-related documents",
+      "Submit and complete bank verification"
+    ]
   },
   {
     "id": "SCH013",
@@ -245,7 +401,20 @@
       ],
       "min_age": 18
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 50000,
+    "application_steps": [
+      "Visit the official scheme portal or partner bank",
+      "Fill the online loan application form",
+      "Upload KYC and business-related documents",
+      "Submit and complete bank verification"
+    ]
   },
   {
     "id": "SCH014",
@@ -264,7 +433,20 @@
       ],
       "min_age": 18
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 50000,
+    "application_steps": [
+      "Visit the official scheme portal or partner bank",
+      "Fill the online loan application form",
+      "Upload KYC and business-related documents",
+      "Submit and complete bank verification"
+    ]
   },
   {
     "id": "SCH015",
@@ -283,7 +465,20 @@
       ],
       "max_income": 400000
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the official scheme portal or partner bank",
+      "Fill the online loan application form",
+      "Upload KYC and business-related documents",
+      "Submit and complete bank verification"
+    ]
   },
   {
     "id": "SCH016",
@@ -299,7 +494,20 @@
       "min_age": 18,
       "max_age": 40
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 36000,
+    "application_steps": [
+      "Visit the official pension portal or CSC",
+      "Register with Aadhaar and mobile number",
+      "Provide bank details and age proof",
+      "Submit enrollment and keep acknowledgment"
+    ]
   },
   {
     "id": "SCH017",
@@ -319,7 +527,20 @@
       "min_age": 18,
       "max_age": 40
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 36000,
+    "application_steps": [
+      "Visit the official pension portal or CSC",
+      "Register with Aadhaar and mobile number",
+      "Provide bank details and age proof",
+      "Submit enrollment and keep acknowledgment"
+    ]
   },
   {
     "id": "SCH018",
@@ -338,7 +559,20 @@
       "min_age": 60,
       "max_income": 200000
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 36000,
+    "application_steps": [
+      "Visit the official pension portal or CSC",
+      "Register with Aadhaar and mobile number",
+      "Provide bank details and age proof",
+      "Submit enrollment and keep acknowledgment"
+    ]
   },
   {
     "id": "SCH019",
@@ -357,7 +591,20 @@
       "is_single_woman": true,
       "max_income": 250000
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 36000,
+    "application_steps": [
+      "Visit the official pension portal or CSC",
+      "Register with Aadhaar and mobile number",
+      "Provide bank details and age proof",
+      "Submit enrollment and keep acknowledgment"
+    ]
   },
   {
     "id": "SCH020",
@@ -373,7 +620,20 @@
       "requires_disability": true,
       "max_income": 250000
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 36000,
+    "application_steps": [
+      "Visit the official pension portal or CSC",
+      "Register with Aadhaar and mobile number",
+      "Provide bank details and age proof",
+      "Submit enrollment and keep acknowledgment"
+    ]
   },
   {
     "id": "SCH021",
@@ -388,7 +648,20 @@
     "eligibility": {
       "requires_disability": true
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the official scheme portal",
+      "Register with your mobile number and Aadhaar",
+      "Upload required documents",
+      "Submit the application and track status"
+    ]
   },
   {
     "id": "SCH022",
@@ -407,7 +680,20 @@
       ],
       "max_income": 300000
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the National Scholarship Portal",
+      "Create a student account",
+      "Upload academic and income documents",
+      "Submit the scholarship application"
+    ]
   },
   {
     "id": "SCH023",
@@ -425,7 +711,20 @@
       ],
       "max_income": 350000
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the National Scholarship Portal",
+      "Create a student account",
+      "Upload academic and income documents",
+      "Submit the scholarship application"
+    ]
   },
   {
     "id": "SCH024",
@@ -443,7 +742,20 @@
       ],
       "max_age": 18
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the official scheme portal",
+      "Register with your mobile number and Aadhaar",
+      "Upload required documents",
+      "Submit the application and track status"
+    ]
   },
   {
     "id": "SCH025",
@@ -463,7 +775,20 @@
       "min_age": 18,
       "max_age": 35
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the official scheme portal",
+      "Register with your mobile number and Aadhaar",
+      "Upload required documents",
+      "Submit the application and track status"
+    ]
   },
   {
     "id": "SCH026",
@@ -483,7 +808,20 @@
       "min_age": 18,
       "max_age": 45
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the official scheme portal",
+      "Register with your mobile number and Aadhaar",
+      "Upload required documents",
+      "Submit the application and track status"
+    ]
   },
   {
     "id": "SCH027",
@@ -503,7 +841,20 @@
       "min_age": 18,
       "max_age": 30
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the official scheme portal",
+      "Register with your mobile number and Aadhaar",
+      "Upload required documents",
+      "Submit the application and track status"
+    ]
   },
   {
     "id": "SCH028",
@@ -523,7 +874,20 @@
       "max_age": 35,
       "max_income": 300000
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the official scheme portal",
+      "Register with your mobile number and Aadhaar",
+      "Upload required documents",
+      "Submit the application and track status"
+    ]
   },
   {
     "id": "SCH029",
@@ -538,7 +902,20 @@
     "eligibility": {
       "max_income": 300000
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the official scheme portal",
+      "Register with your mobile number and Aadhaar",
+      "Upload required documents",
+      "Submit the application and track status"
+    ]
   },
   {
     "id": "SCH030",
@@ -553,7 +930,20 @@
     "eligibility": {
       "max_income": 300000
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the official scheme portal",
+      "Register with your mobile number and Aadhaar",
+      "Upload required documents",
+      "Submit the application and track status"
+    ]
   },
   {
     "id": "SCH031",
@@ -571,7 +961,20 @@
       ],
       "min_age": 18
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the PM-Kisan portal or nearest CSC",
+      "Register with Aadhaar and bank account details",
+      "Verify land ownership details",
+      "Submit and track application status"
+    ]
   },
   {
     "id": "SCH032",
@@ -588,7 +991,20 @@
         "farmer"
       ]
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 50000,
+    "application_steps": [
+      "Visit the PMFBY portal",
+      "Register using Aadhaar",
+      "Upload land records",
+      "Submit the application"
+    ]
   },
   {
     "id": "SCH033",
@@ -605,7 +1021,20 @@
         "farmer"
       ]
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 25000,
+    "application_steps": [
+      "Visit the scheme portal or nearest empanelled center",
+      "Verify eligibility using Aadhaar or ration card",
+      "Complete eKYC and document verification",
+      "Generate card or submit final enrollment"
+    ]
   },
   {
     "id": "SCH034",
@@ -623,7 +1052,20 @@
       ],
       "max_income": 400000
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the official scheme portal",
+      "Register with your mobile number and Aadhaar",
+      "Upload required documents",
+      "Submit the application and track status"
+    ]
   },
   {
     "id": "SCH035",
@@ -641,7 +1083,20 @@
       ],
       "min_age": 18
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the official scheme portal",
+      "Register with your mobile number and Aadhaar",
+      "Upload required documents",
+      "Submit the application and track status"
+    ]
   },
   {
     "id": "SCH036",
@@ -658,7 +1113,20 @@
         "farmer"
       ]
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the official scheme portal",
+      "Register with your mobile number and Aadhaar",
+      "Upload required documents",
+      "Submit the application and track status"
+    ]
   },
   {
     "id": "SCH037",
@@ -676,7 +1144,20 @@
       ],
       "max_income": 250000
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the official scheme portal",
+      "Register with your mobile number and Aadhaar",
+      "Upload required documents",
+      "Submit the application and track status"
+    ]
   },
   {
     "id": "SCH038",
@@ -694,7 +1175,20 @@
       ],
       "max_income": 300000
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the official scheme portal",
+      "Register with your mobile number and Aadhaar",
+      "Upload required documents",
+      "Submit the application and track status"
+    ]
   },
   {
     "id": "SCH039",
@@ -712,7 +1206,20 @@
       ],
       "min_age": 18
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the official scheme portal",
+      "Register with your mobile number and Aadhaar",
+      "Upload required documents",
+      "Submit the application and track status"
+    ]
   },
   {
     "id": "SCH040",
@@ -731,7 +1238,20 @@
       ],
       "max_income": 250000
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the National Scholarship Portal",
+      "Create a student account",
+      "Upload academic and income documents",
+      "Submit the scholarship application"
+    ]
   },
   {
     "id": "SCH041",
@@ -750,7 +1270,20 @@
       ],
       "max_income": 250000
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the National Scholarship Portal",
+      "Create a student account",
+      "Upload academic and income documents",
+      "Submit the scholarship application"
+    ]
   },
   {
     "id": "SCH042",
@@ -770,7 +1303,20 @@
       ],
       "max_income": 400000
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the official scheme portal",
+      "Register with your mobile number and Aadhaar",
+      "Upload required documents",
+      "Submit the application and track status"
+    ]
   },
   {
     "id": "SCH043",
@@ -789,7 +1335,20 @@
       ],
       "min_age": 18
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the official scheme portal",
+      "Register with your mobile number and Aadhaar",
+      "Upload required documents",
+      "Submit the application and track status"
+    ]
   },
   {
     "id": "SCH044",
@@ -807,7 +1366,20 @@
       ],
       "max_income": 400000
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the official scheme portal",
+      "Register with your mobile number and Aadhaar",
+      "Upload required documents",
+      "Submit the application and track status"
+    ]
   },
   {
     "id": "SCH045",
@@ -829,7 +1401,20 @@
       ],
       "min_age": 18
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the official scheme portal",
+      "Register with your mobile number and Aadhaar",
+      "Upload required documents",
+      "Submit the application and track status"
+    ]
   },
   {
     "id": "SCH046",
@@ -851,7 +1436,20 @@
       ],
       "min_age": 18
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the official scheme portal",
+      "Register with your mobile number and Aadhaar",
+      "Upload required documents",
+      "Submit the application and track status"
+    ]
   },
   {
     "id": "SCH047",
@@ -871,7 +1469,20 @@
       ],
       "min_age": 18
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the official scheme portal",
+      "Register with your mobile number and Aadhaar",
+      "Upload required documents",
+      "Submit the application and track status"
+    ]
   },
   {
     "id": "SCH048",
@@ -886,7 +1497,20 @@
     "eligibility": {
       "min_age": 60
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the official scheme portal",
+      "Register with your mobile number and Aadhaar",
+      "Upload required documents",
+      "Submit the application and track status"
+    ]
   },
   {
     "id": "SCH049",
@@ -901,7 +1525,20 @@
     "eligibility": {
       "max_income": 250000
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the official scheme portal",
+      "Register with your mobile number and Aadhaar",
+      "Upload required documents",
+      "Submit the application and track status"
+    ]
   },
   {
     "id": "SCH050",
@@ -916,6 +1553,19 @@
     "eligibility": {
       "max_income": 300000
     },
-    "apply_link": "https://www.myscheme.gov.in/"
+    "apply_link": "https://www.myscheme.gov.in/",
+    "documents_required": [
+      "Aadhaar Card",
+      "Income Certificate",
+      "Bank Account Passbook",
+      "Mobile Number"
+    ],
+    "estimated_benefit": 10000,
+    "application_steps": [
+      "Visit the official scheme portal",
+      "Register with your mobile number and Aadhaar",
+      "Upload required documents",
+      "Submit the application and track status"
+    ]
   }
 ]

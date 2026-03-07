@@ -32,6 +32,7 @@ def recommend_schemes(payload: RecommendationRequest) -> RecommendationResponse:
 
     profile = extract_profile(payload.user_input)
     recommendations_raw = recommender.recommend(payload.user_input, profile, schemes, top_k=3)
+    improvements = recommender.eligibility_improvements(profile)
 
     extracted_profile = DetectedCitizenProfile(
         occupation=profile.get("occupation"),
@@ -42,4 +43,8 @@ def recommend_schemes(payload: RecommendationRequest) -> RecommendationResponse:
     )
 
     recommendations = [SchemeRecommendation(**item) for item in recommendations_raw]
-    return RecommendationResponse(extracted_profile=extracted_profile, recommendations=recommendations)
+    return RecommendationResponse(
+        extracted_profile=extracted_profile,
+        recommendations=recommendations,
+        eligibility_improvements=improvements,
+    )

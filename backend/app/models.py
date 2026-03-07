@@ -12,6 +12,9 @@ class SchemeRecommendation(BaseModel):
     name: str
     description: str
     apply_link: str
+    documents_required: list[str] = Field(default_factory=list)
+    application_steps: list[str] = Field(default_factory=list)
+    estimated_benefit: int | None = None
     match_score: float = Field(..., ge=0, le=100)
     support_types: list[str] = Field(default_factory=list)
     monetary_benefit: float | None = None
@@ -34,15 +37,18 @@ class BenefitsSummary(BaseModel):
 class RecommendationResponse(BaseModel):
     extracted_profile: DetectedCitizenProfile
     recommendations: list[SchemeRecommendation]
+    eligibility_improvements: list[str] = Field(default_factory=list)
     benefits_summary: BenefitsSummary | None = None
 
     @model_validator(mode="after")
     def populate_benefits_summary(self) -> "RecommendationResponse":
-        monetary_values = [
-            scheme.monetary_benefit
-            for scheme in self.recommendations
-            if scheme.monetary_benefit is not None and scheme.monetary_benefit > 0
-        ]
+        monetary_values: list[float] = []
+        for scheme in self.recommendations:
+            if scheme.estimated_benefit is not None and scheme.estimated_benefit > 0:
+                monetary_values.append(float(scheme.estimated_benefit))
+            elif scheme.monetary_benefit is not None and scheme.monetary_benefit > 0:
+                monetary_values.append(float(scheme.monetary_benefit))
+
         total_monetary_benefits = round(sum(monetary_values), 2) if monetary_values else 0.0
 
         support_counter: Counter[str] = Counter()

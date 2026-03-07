@@ -95,5 +95,18 @@ def extract_profile(user_input: str) -> dict[str, Any]:
         "occupation": _extract_occupation(user_input),
     }
     profile.update(_extract_flags(user_input))
+    profile["missing_fields"] = _detect_missing_fields(profile)
     profile["raw_text"] = user_input
     return profile
+
+
+def _detect_missing_fields(profile: dict[str, Any]) -> list[str]:
+    required_fields = {
+        "age": profile.get("age"),
+        "income": profile.get("income"),
+        "state": profile.get("location"),
+        "category": profile.get("category"),
+        "occupation": profile.get("occupation"),
+    }
+
+    return [field for field, value in required_fields.items() if value is None]

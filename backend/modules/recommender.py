@@ -53,6 +53,13 @@ class SchemeRecommender:
         return None
 
     @staticmethod
+    def _extract_estimated_benefit(scheme: dict[str, Any]) -> int | None:
+        value = scheme.get("estimated_benefit")
+        if isinstance(value, (int, float)):
+            return int(value)
+        return None
+
+    @staticmethod
     def _cosine_similarity(a: np.ndarray, b: np.ndarray) -> float:
         denominator = (np.linalg.norm(a) * np.linalg.norm(b))
         if denominator == 0:
@@ -78,13 +85,19 @@ class SchemeRecommender:
             combined_score = (0.65 * semantic_score) + (0.35 * eligibility_score)
             match_score = round(combined_score * 100, 1)
             support_types = self._infer_support_types(scheme)
-            monetary_benefit = self._extract_monetary_benefit(scheme)
+            estimated_benefit = self._extract_estimated_benefit(scheme)
+            monetary_benefit = (
+                float(estimated_benefit) if estimated_benefit is not None else self._extract_monetary_benefit(scheme)
+            )
             scored.append(
                 {
                     "scheme_id": scheme["id"],
                     "name": scheme["name"],
                     "description": scheme.get("description", ""),
                     "apply_link": scheme.get("apply_link", DEFAULT_APPLY_LINK),
+                    "documents_required": scheme.get("documents_required", []),
+                    "application_steps": scheme.get("application_steps", []),
+                    "estimated_benefit": estimated_benefit,
                     "match_score": match_score,
                     "support_types": support_types,
                     "monetary_benefit": monetary_benefit,
@@ -94,3 +107,16 @@ class SchemeRecommender:
 
         scored.sort(key=lambda item: item["match_score"], reverse=True)
         return scored[:top_k]
+
+    @staticmethod
+    def eligibility_improvements(profile: dict[str, Any]) -> list[str]:
+        suggestions_by_field = {
+            "income": "Add your annual income",
+            "state": "Specify your state of residence",
+            "category": "Mention caste category (SC/ST/OBC/EWS)",
+            "age": "Provide your age",
+            "occupation": "Share your occupation",
+        }
+
+        missing_fields = profile.get("missing_fields", [])
+        return [suggestions_by_field[field] for field in missing_fields if field in suggestions_by_field]

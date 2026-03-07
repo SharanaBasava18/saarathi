@@ -5,6 +5,9 @@ type Scheme = {
   rationale: string;
   description?: string;
   apply_link: string;
+  estimated_benefit?: number | null;
+  documents_required?: string[];
+  application_steps?: string[];
 };
 
 type SchemeCardProps = {
@@ -33,6 +36,35 @@ export default function SchemeCard({ scheme, rank }: SchemeCardProps) {
         <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#0f5f56]">Why you may qualify</p>
         <p className="mt-1 text-sm leading-6 text-[var(--text-main)]">{scheme.rationale}</p>
       </div>
+
+      {scheme.estimated_benefit !== undefined && scheme.estimated_benefit !== null ? (
+        <div className="mt-3 rounded-lg border border-[#dbe4f1] bg-[#f7faff] p-3">
+          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#355a57]">Estimated Benefit</p>
+          <p className="mt-1 text-sm text-[var(--text-main)]">₹{scheme.estimated_benefit.toLocaleString()} per year</p>
+        </div>
+      ) : null}
+
+      {scheme.documents_required && scheme.documents_required.length > 0 ? (
+        <div className="mt-3 rounded-lg border border-[#dbe4f1] bg-[#f7faff] p-3">
+          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#355a57]">Documents Required</p>
+          <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-[var(--text-main)]">
+            {scheme.documents_required.map((document) => (
+              <li key={`${scheme.scheme_id}-${document}`}>{document}</li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+
+      {scheme.application_steps && scheme.application_steps.length > 0 ? (
+        <div className="mt-3 rounded-lg border border-[#dbe4f1] bg-[#f7faff] p-3">
+          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#355a57]">Application Steps</p>
+          <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm text-[var(--text-main)]">
+            {scheme.application_steps.map((step, index) => (
+              <li key={`${scheme.scheme_id}-${index + 1}`}>{step}</li>
+            ))}
+          </ol>
+        </div>
+      ) : null}
 
       <div className="mt-3 rounded-lg border border-[#dbe4f1] bg-[#f7faff] p-3">
         <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#355a57]">How to Apply</p>

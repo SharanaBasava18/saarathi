@@ -12,6 +12,9 @@ type SchemeRecommendation = {
   rationale: string;
   description?: string;
   apply_link: string;
+  documents_required?: string[];
+  application_steps?: string[];
+  estimated_benefit?: number | null;
 };
 
 type RecommendationResponse = {
@@ -22,6 +25,7 @@ type RecommendationResponse = {
     state: string | null;
     category: string | null;
   };
+  eligibility_improvements: string[];
   benefits_summary: {
     total_monetary_benefits: number;
     major_support_types: string[];
@@ -35,6 +39,7 @@ type ChatMessage = {
   text: string;
   recommendations?: SchemeRecommendation[];
   detectedProfile?: RecommendationResponse["extracted_profile"];
+  eligibilityImprovements?: string[];
   benefitsSummary?: RecommendationResponse["benefits_summary"];
 };
 
@@ -104,6 +109,7 @@ export default function Home() {
           text: "Here are the top 3 schemes based on your profile.",
           recommendations: data.recommendations,
           detectedProfile: data.extracted_profile,
+          eligibilityImprovements: data.eligibility_improvements,
           benefitsSummary: data.benefits_summary,
         },
       ]);
@@ -174,6 +180,22 @@ export default function Home() {
                   </div>
                 ) : null}
 
+                {message.eligibilityImprovements && message.eligibilityImprovements.length > 0 ? (
+                  <div className="mt-3 rounded-lg border border-[#dce7e4] bg-[#f8fbfa] p-3">
+                    <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#355a57]">
+                      Improve Your Eligibility
+                    </p>
+                    <p className="mt-2 text-xs text-[var(--text-main)] sm:text-sm">
+                      To increase your chances of qualifying for more schemes:
+                    </p>
+                    <ul className="mt-2 list-disc space-y-1 pl-5 text-xs text-[var(--text-main)] sm:text-sm">
+                      {message.eligibilityImprovements.map((improvement) => (
+                        <li key={`${message.id}-${improvement}`}>{improvement}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+
                 {message.recommendations ? (
                   <div className="mt-3 space-y-3">
                     {message.benefitsSummary ? (
@@ -183,7 +205,7 @@ export default function Home() {
                         </p>
                         <div className="mt-2 space-y-1 text-xs text-[var(--text-main)] sm:text-sm">
                           <p>
-                            Total monetary benefits: INR {message.benefitsSummary.total_monetary_benefits.toLocaleString()}
+                            Total estimated benefits: INR {message.benefitsSummary.total_monetary_benefits.toLocaleString()}
                           </p>
                           <p>
                             Major support types:{" "}
