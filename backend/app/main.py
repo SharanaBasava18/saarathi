@@ -31,14 +31,15 @@ def recommend_schemes(payload: RecommendationRequest) -> RecommendationResponse:
         raise HTTPException(status_code=500, detail="schemes.json not found") from exc
 
     profile = extract_profile(payload.user_input)
-    recommendations_raw = recommender.recommend(payload.user_input, profile, schemes, top_k=3)
+    recommendations_raw = recommender.recommend(payload.user_input, profile, schemes, top_k=None)
     improvements = recommender.eligibility_improvements(profile)
 
     extracted_profile = DetectedCitizenProfile(
-        occupation=profile.get("occupation"),
-        income=profile.get("income"),
         age=profile.get("age"),
-        state=profile.get("location"),
+        occupation=profile.get("occupation"),
+        education=profile.get("education"),
+        state=profile.get("state"),
+        income=profile.get("income"),
         category=profile.get("category"),
     )
 

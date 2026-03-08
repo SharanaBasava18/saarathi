@@ -2,6 +2,42 @@ import re
 from typing import Any
 
 
+ALLOWED_STATES = {
+    "karnataka",
+    "maharashtra",
+    "tamil nadu",
+    "kerala",
+    "telangana",
+    "andhra pradesh",
+    "delhi",
+    "uttar pradesh",
+    "gujarat",
+    "rajasthan",
+}
+
+EDUCATION_KEYWORDS = {
+    "engineering": [
+        "btech",
+        "b.tech",
+        "be",
+        "b.e",
+        "engineering",
+        "cse",
+        "mechanical",
+        "ece",
+        "civil",
+        "it branch",
+        "branch",
+        "sem",
+        "semester",
+    ],
+    "diploma": ["diploma", "polytechnic"],
+    "school": ["school", "class", "10th", "12th", "higher secondary"],
+    "undergraduate": ["undergraduate", "ug", "bachelor", "college"],
+    "postgraduate": ["postgraduate", "pg", "master", "mtech", "mba", "msc", "ma"],
+}
+
+
 INCOME_PATTERNS = [
     r"annual\s*income\s*(?:is|:)?\s*(?:rs\.?|inr)?\s*([\d,]+)",
     r"income\s*(?:is|:)?\s*(?:rs\.?|inr)?\s*([\d,]+)",
@@ -35,6 +71,10 @@ def _extract_age(text: str) -> int | None:
     return None
 
 
+def _normalize_text(text: str) -> str:
+    return re.sub(r"[^a-z\s]", " ", text.lower())
+
+
 def _extract_gender(text: str) -> str | None:
     gender_map = {
         "female": ["female", "woman", "girl", "mother", "widow"],
@@ -48,10 +88,11 @@ def _extract_gender(text: str) -> str | None:
     return None
 
 
-def _extract_location(text: str) -> str | None:
-    state_match = re.search(r"(?:from|in|living in|resident of)\s+([A-Za-z\s]{3,30})", text, flags=re.IGNORECASE)
-    if state_match:
-        return state_match.group(1).strip().title()
+def _extract_state(text: str) -> str | None:
+    lowered = _normalize_text(text)
+    for state in sorted(ALLOWED_STATES, key=len, reverse=True):
+        if re.search(rf"\b{re.escape(state)}\b", lowered):
+            return state.title()
     return None
 
 
@@ -85,6 +126,21 @@ def _extract_occupation(text: str) -> str | None:
     return None
 
 
+def _extract_education(text: str, occupation: str | None) -> str | None:
+    lowered = _normalize_text(text)
+
+    for education_type, aliases in EDUCATION_KEYWORDS.items():
+        if any(re.search(rf"\b{re.escape(alias)}\b", lowered) for alias in aliases):
+            if education_type == "engineering" and occupation == "student":
+                return "engineering student"
+            return education_type
+
+    if occupation == "student":
+        return "student"
+
+    return None
+
+
 def _extract_flags(text: str) -> dict[str, bool]:
     lowered = text.lower()
     return {
@@ -96,13 +152,16 @@ def _extract_flags(text: str) -> dict[str, bool]:
 
 
 def extract_profile(user_input: str) -> dict[str, Any]:
+    occupation = _extract_occupation(user_input)
+
     profile = {
         "age": _extract_age(user_input),
-        "gender": _extract_gender(user_input),
-        "location": _extract_location(user_input),
+        "occupation": occupation,
+        "education": _extract_education(user_input, occupation),
+        "state": _extract_state(user_input),
         "income": _extract_income(user_input),
         "category": _extract_category(user_input),
-        "occupation": _extract_occupation(user_input),
+        "gender": _extract_gender(user_input),
     }
     profile.update(_extract_flags(user_input))
     profile["missing_fields"] = _detect_missing_fields(profile)
@@ -114,7 +173,7 @@ def _detect_missing_fields(profile: dict[str, Any]) -> list[str]:
     required_fields = {
         "age": profile.get("age"),
         "income": profile.get("income"),
-        "state": profile.get("location"),
+        "state": profile.get("state"),
         "category": profile.get("category"),
         "occupation": profile.get("occupation"),
     }

@@ -8,11 +8,16 @@ type Scheme = {
   estimated_benefit?: number | null;
   documents_required?: string[];
   application_steps?: string[];
+  scheme_categories?: string[];
 };
 
 type SchemeCardProps = {
   scheme: Scheme;
   rank: number;
+  readyDocumentsCount: number;
+  totalDocumentsCount: number;
+  isReadyToApply: boolean;
+  onDownloadChecklist: (scheme: Scheme) => void;
 };
 
 const getMatchMeta = (score: number): { label: string; className: string } => {
@@ -27,11 +32,30 @@ const getMatchMeta = (score: number): { label: string; className: string } => {
   return { label: "Low Match", className: "bg-red-100 text-red-700" };
 };
 
-export default function SchemeCard({ scheme, rank }: SchemeCardProps) {
+const CATEGORY_META: Record<string, { emoji: string; label: string }> = {
+  education: { emoji: "🎓", label: "Education" },
+  employment: { emoji: "💼", label: "Employment" },
+  healthcare: { emoji: "🏥", label: "Healthcare" },
+  housing: { emoji: "🏠", label: "Housing" },
+  agriculture: { emoji: "🌾", label: "Agriculture" },
+  pension: { emoji: "👵", label: "Pension" },
+  "income support": { emoji: "💰", label: "Income Support" },
+};
+
+export default function SchemeCard({
+  scheme,
+  rank,
+  readyDocumentsCount,
+  totalDocumentsCount,
+  isReadyToApply,
+  onDownloadChecklist,
+}: SchemeCardProps) {
   const matchMeta = getMatchMeta(scheme.match_score);
+  const score = Math.max(0, Math.min(100, Math.round(scheme.match_score)));
+  const categories = (scheme.scheme_categories ?? []).map((item) => item.toLowerCase());
 
   return (
-    <article className="rounded-xl border border-[#d7e1df] bg-white p-4 shadow-sm sm:p-5">
+    <article className="rounded-2xl border border-[#d4deea] bg-white p-4 shadow-[0_14px_34px_rgba(9,31,56,0.08)] sm:p-5">
       <div className="mb-4 flex items-start justify-between gap-4">
         <div>
           <p className="mb-1 text-xs font-semibold uppercase tracking-[0.16em] text-accent">Top {rank}</p>
@@ -39,13 +63,36 @@ export default function SchemeCard({ scheme, rank }: SchemeCardProps) {
         </div>
         <div className="flex flex-col items-end gap-1">
           <span className={`rounded-full px-3 py-1 text-xs font-semibold ${matchMeta.className}`}>{matchMeta.label}</span>
-          <span className="text-xs font-medium text-[var(--text-soft)]">{Math.round(scheme.match_score)}% score</span>
+          <span className="text-xs font-medium text-[var(--text-soft)]">{score}% score</span>
         </div>
+      </div>
+
+      <div className="mb-4 flex flex-wrap gap-2">
+        {categories.length > 0
+          ? categories.map((category) => {
+              const meta = CATEGORY_META[category] ?? { emoji: "🏛️", label: category };
+              return (
+                <span key={`${scheme.scheme_id}-${category}`} className="rounded-full bg-[#eef5ff] px-3 py-1 text-xs font-semibold text-[#20456f]">
+                  {meta.emoji} {meta.label}
+                </span>
+              );
+            })
+          : (
+            <span className="rounded-full bg-[#eef5ff] px-3 py-1 text-xs font-semibold text-[#20456f]">🏛️ General Support</span>
+            )}
       </div>
 
       <p className="mb-4 text-sm leading-6 text-[var(--text-soft)]">
         {scheme.description ?? "No description available."}
       </p>
+
+      <div className="mb-4 rounded-xl border border-[#d7e2f2] bg-[#f7fbff] p-3">
+        <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#355a57]">Match Confidence</p>
+        <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-[#d9e6f7]">
+          <div className="h-full rounded-full bg-[#007a8f] transition-all" style={{ width: `${score}%` }} />
+        </div>
+        <p className="mt-1 text-xs text-[var(--text-soft)]">{score}%</p>
+      </div>
 
       <div className="rounded-lg border border-[#d7e6e3] bg-[#f6fbfa] p-3">
         <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#0f5f56]">Why you may qualify</p>
@@ -61,7 +108,19 @@ export default function SchemeCard({ scheme, rank }: SchemeCardProps) {
 
       {scheme.documents_required && scheme.documents_required.length > 0 ? (
         <div className="mt-3 rounded-lg border border-[#dbe4f1] bg-[#f7faff] p-3">
-          <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#355a57]">📄 Documents Required</p>
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#355a57]">📄 Documents Required</p>
+            <span
+              className={`rounded-full px-2.5 py-1 text-xs font-semibold ${
+                isReadyToApply ? "bg-green-100 text-green-700" : "bg-orange-100 text-orange-700"
+              }`}
+            >
+              {isReadyToApply ? "Ready to Apply" : "Missing Documents"}
+            </span>
+          </div>
+          <p className="mt-2 text-sm font-semibold text-slate-800">
+            Documents Ready: {readyDocumentsCount} / {totalDocumentsCount}
+          </p>
           <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-[var(--text-main)]">
             {scheme.documents_required.map((document) => (
               <li key={`${scheme.scheme_id}-${document}`}>{document}</li>
@@ -82,15 +141,24 @@ export default function SchemeCard({ scheme, rank }: SchemeCardProps) {
       ) : null}
 
       <div className="mt-3 rounded-lg border border-[#dbe4f1] bg-[#f7faff] p-3">
-        <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#355a57]">How to Apply</p>
-        <a
-          href={scheme.apply_link}
-          target="_blank"
-          rel="noreferrer"
-          className="mt-1 inline-block text-sm font-medium text-[#0b5e8a] underline underline-offset-2"
-        >
-          Open Application Link
-        </a>
+        <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#355a57]">Apply</p>
+        <div className="mt-1 flex flex-wrap gap-2">
+          <a
+            href={scheme.apply_link}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center rounded-lg bg-[#0c5a8f] px-3 py-1.5 text-sm font-semibold text-white transition hover:bg-[#084872]"
+          >
+            Apply Now
+          </a>
+          <button
+            type="button"
+            onClick={() => onDownloadChecklist(scheme)}
+            className="inline-flex items-center rounded-lg border border-[#b8cbe2] bg-white px-3 py-1.5 text-sm font-semibold text-[#1e4a76] transition hover:bg-[#eef4fb]"
+          >
+            Download Application Checklist
+          </button>
+        </div>
       </div>
     </article>
   );

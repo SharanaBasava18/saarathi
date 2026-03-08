@@ -17,15 +17,17 @@ class SchemeRecommendation(BaseModel):
     estimated_benefit: int | None = None
     match_score: float = Field(..., ge=0, le=100)
     support_types: list[str] = Field(default_factory=list)
+    scheme_categories: list[str] = Field(default_factory=list)
     monetary_benefit: float | None = None
     rationale: str
 
 
 class DetectedCitizenProfile(BaseModel):
-    occupation: str | None = None
-    income: int | None = None
     age: int | None = None
+    occupation: str | None = None
+    education: str | None = None
     state: str | None = None
+    income: int | None = None
     category: str | None = None
 
 
@@ -55,7 +57,7 @@ class RecommendationResponse(BaseModel):
         for scheme in self.recommendations:
             support_counter.update(scheme.support_types)
 
-        preferred_order = ["healthcare", "housing", "pension", "income support"]
+        preferred_order = ["education", "employment", "healthcare", "housing", "agriculture", "pension", "income support"]
         major_support_types = [item for item in preferred_order if support_counter.get(item, 0) > 0]
 
         self.benefits_summary = BenefitsSummary(

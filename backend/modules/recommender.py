@@ -22,6 +22,13 @@ class SchemeRecommender:
         text = self._scheme_text(scheme).lower()
         support_types: list[str] = []
 
+        if any(token in text for token in ["education", "student", "scholarship", "school", "college"]):
+            support_types.append("education")
+        if any(token in text for token in ["employment", "job", "livelihood", "self employed", "skill training", "skill"]):
+            support_types.append("employment")
+        if any(token in text for token in ["agri", "agriculture", "farmer", "crop", "kisan"]):
+            support_types.append("agriculture")
+
         if any(token in text for token in ["health", "insurance", "maternal", "hospital"]):
             support_types.append("healthcare")
         if any(token in text for token in ["housing", "home", "awas", "shelter"]):
@@ -71,7 +78,7 @@ class SchemeRecommender:
         user_input: str,
         profile: dict[str, Any],
         schemes: list[dict[str, Any]],
-        top_k: int = 3,
+        top_k: int | None = 3,
     ) -> list[dict[str, Any]]:
         user_embedding = self.model.encode(user_input)
 
@@ -81,6 +88,9 @@ class SchemeRecommender:
             semantic_raw = self._cosine_similarity(np.array(user_embedding), np.array(scheme_embedding))
             semantic_score = max(0.0, min(1.0, (semantic_raw + 1.0) / 2.0))
             eligibility_score, reasons = evaluate_eligibility(profile, scheme)
+
+            if eligibility_score <= 0:
+                continue
 
             combined_score = (0.65 * semantic_score) + (0.35 * eligibility_score)
             match_score = round(combined_score * 100, 1)
@@ -100,12 +110,15 @@ class SchemeRecommender:
                     "estimated_benefit": estimated_benefit,
                     "match_score": match_score,
                     "support_types": support_types,
+                    "scheme_categories": support_types,
                     "monetary_benefit": monetary_benefit,
                     "rationale": " ".join(reasons[:3]),
                 }
             )
 
         scored.sort(key=lambda item: item["match_score"], reverse=True)
+        if top_k is None:
+            return scored
         return scored[:top_k]
 
     @staticmethod

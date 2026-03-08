@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 
+import { Bot, BriefcaseBusiness, CheckCircle2, GraduationCap, HeartPulse, House, Landmark, ShieldCheck, Sprout, User, Waves, XCircle } from "lucide-react";
+
 import InputBox from "@/components/InputBox";
 import SchemeCard from "@/components/SchemeCard";
 
@@ -15,14 +17,16 @@ type SchemeRecommendation = {
   documents_required?: string[];
   application_steps?: string[];
   estimated_benefit?: number | null;
+  scheme_categories?: string[];
 };
 
 type RecommendationResponse = {
   extracted_profile: {
-    occupation: string | null;
-    income: number | null;
     age: number | null;
+    occupation: string | null;
+    education: string | null;
     state: string | null;
+    income: number | null;
     category: string | null;
   };
   eligibility_improvements: string[];
@@ -44,20 +48,30 @@ type ChatMessage = {
 };
 
 const QUICK_EXAMPLES = [
-  { label: "👨‍🌾 Farmer", message: "I am a small farmer with low income" },
-  { label: "🎓 Student", message: "I am a student from a low income family" },
-  { label: "👩 Widow", message: "I am a widow living in a rural area" },
-  { label: "💼 Unemployed", message: "I am unemployed and looking for government support" },
+  { label: "Farmer", message: "I am a small farmer with low income" },
+  { label: "Student", message: "I am a student from a low income family" },
+  { label: "Widow Support", message: "I am a widow living in a rural area" },
+  { label: "Unemployed", message: "I am unemployed and looking for government support" },
 ];
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000";
+const BENEFIT_BENCHMARK_INR = 200000;
 
-const JOURNEY_STEPS = [
-  { key: "voice", title: "Voice Input", icon: "🎤" },
-  { key: "profile", title: "Profile Creation", icon: "📋" },
-  { key: "analysis", title: "Scheme Analysis", icon: "⚙️" },
-  { key: "shortlist", title: "Shortlist Generated", icon: "✅" },
-] as const;
+const VAULT_DOCUMENTS: Array<{ name: string; available: boolean }> = [
+  { name: "Aadhaar Card", available: true },
+  { name: "Bank Passbook", available: true },
+  { name: "Income Certificate", available: false },
+  { name: "Mobile Number Verified", available: true },
+  { name: "Land Ownership Record", available: false },
+];
+
+const CATEGORY_ICON_MAP: Record<string, JSX.Element> = {
+  education: <GraduationCap size={14} />,
+  employment: <BriefcaseBusiness size={14} />,
+  healthcare: <HeartPulse size={14} />,
+  housing: <House size={14} />,
+  agriculture: <Sprout size={14} />,
+};
 
 const formatCurrency = (value: number | null) => {
   if (value === null) {
@@ -67,33 +81,7 @@ const formatCurrency = (value: number | null) => {
   return `₹${value.toLocaleString("en-IN")}`;
 };
 
-const getSchemeTags = (scheme: SchemeRecommendation): string[] => {
-  const source = `${scheme.name} ${scheme.description ?? ""} ${scheme.rationale}`.toLowerCase();
-  const matched: string[] = [];
-
-  const tagRules: Array<{ test: RegExp; label: string }> = [
-    { test: /farmer|agri|crop|kisan|rural/, label: "Agriculture" },
-    { test: /health|hospital|medical|insurance|aarogya/, label: "Healthcare" },
-    { test: /education|student|scholarship|school/, label: "Education" },
-    { test: /housing|awas|home|shelter/, label: "Housing" },
-    { test: /income|cash|support|benefit|financial/, label: "Income Support" },
-    { test: /women|widow|mother|girl/, label: "Women Support" },
-    { test: /pension|senior|elderly/, label: "Pension" },
-    { test: /employment|skill|job|livelihood/, label: "Employment" },
-  ];
-
-  for (const rule of tagRules) {
-    if (rule.test.test(source)) {
-      matched.push(rule.label);
-    }
-  }
-
-  if (matched.length === 0) {
-    return ["General Support"];
-  }
-
-  return matched.slice(0, 2);
-};
+const normalizeDoc = (value: string) => value.toLowerCase().replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
 
 export default function Home() {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
@@ -105,7 +93,9 @@ export default function Home() {
     },
   ]);
   const [loading, setLoading] = useState(false);
-  const [selectedSchemeId, setSelectedSchemeId] = useState<string | null>(null);
+  const [showAllSchemes, setShowAllSchemes] = useState(false);
+  const [animatedBenefit, setAnimatedBenefit] = useState(0);
+  const [vaultDocuments, setVaultDocuments] = useState(VAULT_DOCUMENTS);
 
   const handleSubmit = async (userText: string) => {
     const trimmed = userText.trim();
@@ -131,6 +121,7 @@ export default function Home() {
     ]);
 
     setLoading(true);
+    setShowAllSchemes(false);
 
     try {
       const response = await fetch(`${API_BASE_URL}/recommend`, {
@@ -151,7 +142,7 @@ export default function Home() {
         {
           id: crypto.randomUUID(),
           role: "assistant",
-          text: "Here are the top 3 schemes based on your profile.",
+          text: "I found eligible schemes based on your profile. Review top recommendations and expand to view all matches.",
           recommendations: data.recommendations,
           detectedProfile: data.extracted_profile,
           eligibilityImprovements: data.eligibility_improvements,
@@ -195,100 +186,184 @@ export default function Home() {
   const eligibilityImprovements = latestRecommendationMessage?.eligibilityImprovements ?? [];
   const benefitsSummary = latestRecommendationMessage?.benefitsSummary ?? null;
   const recommendedSchemes = latestRecommendationMessage?.recommendations ?? [];
-
-  const selectedScheme =
-    recommendedSchemes.find((scheme) => scheme.scheme_id === selectedSchemeId) ?? recommendedSchemes[0] ?? null;
+  const topSchemes = useMemo(() => recommendedSchemes.slice(0, 3), [recommendedSchemes]);
+  const displayedSchemes = showAllSchemes ? recommendedSchemes : topSchemes;
+  const supportTarget = Math.round(benefitsSummary?.total_monetary_benefits ?? 0);
 
   useEffect(() => {
-    if (recommendedSchemes.length === 0) {
-      setSelectedSchemeId(null);
+    if (!benefitsSummary) {
+      setAnimatedBenefit(0);
       return;
     }
 
-    const currentIsValid = recommendedSchemes.some((scheme) => scheme.scheme_id === selectedSchemeId);
-    if (!currentIsValid) {
-      setSelectedSchemeId(recommendedSchemes[0].scheme_id);
+    const target = Math.round(benefitsSummary.total_monetary_benefits);
+    if (target <= 0) {
+      setAnimatedBenefit(0);
+      return;
     }
-  }, [recommendedSchemes, selectedSchemeId]);
 
-  const selectedSchemeRank = selectedScheme
-    ? recommendedSchemes.findIndex((scheme) => scheme.scheme_id === selectedScheme.scheme_id) + 1
-    : 1;
+    let raf = 0;
+    const duration = 1100;
+    const start = performance.now();
 
-  const stepCompletion = {
-    voice: messages.some((message) => message.role === "user"),
-    profile: Boolean(detectedProfile),
-    analysis: loading || recommendedSchemes.length > 0,
-    shortlist: !loading && recommendedSchemes.length > 0,
+    const animate = (now: number) => {
+      const progress = Math.min(1, (now - start) / duration);
+      setAnimatedBenefit(Math.round(target * progress));
+      if (progress < 1) {
+        raf = requestAnimationFrame(animate);
+      }
+    };
+
+    raf = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(raf);
+  }, [benefitsSummary]);
+
+  const categorySummary = useMemo(() => {
+    const allCategories = new Set<string>();
+    for (const scheme of recommendedSchemes) {
+      for (const category of scheme.scheme_categories ?? []) {
+        allCategories.add(category.toLowerCase());
+      }
+    }
+    return Array.from(allCategories);
+  }, [recommendedSchemes]);
+
+  const allRequiredDocuments = useMemo(() => {
+    const docs = new Set<string>();
+    for (const scheme of recommendedSchemes) {
+      for (const document of scheme.documents_required ?? []) {
+        const normalized = document.trim();
+        if (normalized) {
+          docs.add(normalized);
+        }
+      }
+    }
+    return Array.from(docs);
+  }, [recommendedSchemes]);
+
+  const isDocumentInVault = (documentName: string) => {
+    const normalized = normalizeDoc(documentName);
+    return vaultDocuments.some((vaultDocument) => {
+      if (!vaultDocument.available) {
+        return false;
+      }
+
+      const vaultNormalized = normalizeDoc(vaultDocument.name);
+      if (normalized.includes(vaultNormalized) || vaultNormalized.includes(normalized)) {
+        return true;
+      }
+
+      const keywordMap: Array<{ pattern: RegExp; key: string }> = [
+        { pattern: /(aadhaar|aadhar|identity)/, key: "aadhaar" },
+        { pattern: /(bank|passbook|account)/, key: "bank passbook" },
+        { pattern: /(income|salary|itr)/, key: "income certificate" },
+        { pattern: /(mobile|phone|verified)/, key: "mobile number verified" },
+        { pattern: /(land|ownership|property|patta)/, key: "land ownership" },
+      ];
+
+      const matchedKey = keywordMap.find((item) => item.pattern.test(normalized))?.key;
+      return matchedKey ? vaultNormalized.includes(matchedKey) : false;
+    });
+  };
+
+  const missingDocuments = useMemo(() => {
+    return allRequiredDocuments.filter((document) => !isDocumentInVault(document));
+  }, [allRequiredDocuments, vaultDocuments]);
+
+  const availableRequiredDocumentsCount = useMemo(
+    () => allRequiredDocuments.filter((document) => isDocumentInVault(document)).length,
+    [allRequiredDocuments, vaultDocuments]
+  );
+
+  const readinessScore = useMemo(() => {
+    if (recommendedSchemes.length === 0) {
+      return 0;
+    }
+
+    if (allRequiredDocuments.length === 0) {
+      return 100;
+    }
+
+    return Math.round((availableRequiredDocumentsCount / allRequiredDocuments.length) * 100);
+  }, [allRequiredDocuments.length, availableRequiredDocumentsCount, recommendedSchemes.length]);
+
+  const benefitProgress = useMemo(() => {
+    if (supportTarget <= 0 || animatedBenefit <= 0) {
+      return 0;
+    }
+    const maxProgress = Math.min(100, (supportTarget / BENEFIT_BENCHMARK_INR) * 100);
+    return Math.min(100, (animatedBenefit / supportTarget) * maxProgress);
+  }, [animatedBenefit, supportTarget]);
+
+  const readinessBarColor = useMemo(() => {
+    if (readinessScore >= 80) {
+      return "bg-green-500";
+    }
+    if (readinessScore >= 50) {
+      return "bg-yellow-500";
+    }
+    return "bg-red-500";
+  }, [readinessScore]);
+
+  const downloadChecklist = (scheme: SchemeRecommendation) => {
+    const content = [
+      `Scheme Name: ${scheme.name}`,
+      "",
+      "Required Documents:",
+      ...(scheme.documents_required && scheme.documents_required.length > 0
+        ? scheme.documents_required.map((document, index) => `${index + 1}. ${document}`)
+        : ["None specified"]),
+      "",
+      "Application Steps:",
+      ...(scheme.application_steps && scheme.application_steps.length > 0
+        ? scheme.application_steps.map((step, index) => `${index + 1}. ${step}`)
+        : ["None specified"]),
+    ].join("\n");
+
+    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    const safeName = scheme.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    link.href = url;
+    link.download = `${safeName || "scheme"}-application-checklist.txt`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+  };
+
+  const toggleVaultDocument = (documentName: string) => {
+    setVaultDocuments((current) =>
+      current.map((document) =>
+        document.name === documentName ? { ...document, available: !document.available } : document
+      )
+    );
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 px-4 py-6 sm:px-6 sm:py-8">
-      <div className="mx-auto w-full max-w-7xl space-y-4 pb-28">
-        <header className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm sm:px-6">
+    <main className="min-h-screen bg-gradient-to-b from-[#edf3f9] via-[#f7fbff] to-[#f2f5ef] px-4 py-6 sm:px-6 sm:py-8">
+      <div className="mx-auto w-full max-w-7xl space-y-4 pb-8">
+        <header className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-[#cfdae7] bg-white/90 px-4 py-3 shadow-[0_14px_36px_rgba(6,33,61,0.08)] sm:px-6">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-lg">🤖</div>
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#e9f1fb] text-[#1e456f]">
+              <Landmark size={20} />
+            </div>
             <div>
               <p className="text-2xl font-bold leading-tight text-slate-900">SAARTHI</p>
-              <p className="text-sm text-slate-600">Smart Accessible Assistance</p>
+              <p className="text-sm text-slate-600">National Welfare Discovery Assistant</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="rounded-full border border-slate-300 bg-slate-50 p-1 shadow-sm">
-              <button type="button" className="rounded-full bg-[#294172] px-3 py-1 text-sm font-semibold text-white">
-                EN
-              </button>
-              <button type="button" className="rounded-full px-3 py-1 text-sm font-semibold text-slate-600">
-                KA
-              </button>
-            </div>
-            <button
-              type="button"
-              aria-label="Profile"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 bg-white text-lg shadow-sm"
-            >
-              👤
-            </button>
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#d5e0ec] bg-[#f6f9fc] px-4 py-2 text-sm font-semibold text-[#2d4f73]">
+            <Waves size={16} />
+            <span>Multilingual Voice Support (Powered by Bhashini)</span>
           </div>
         </header>
 
         <section className="grid grid-cols-1 gap-4 lg:grid-cols-12">
-          <aside className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm lg:col-span-3">
-            <h2 className="text-2xl font-semibold text-slate-900">Status Journey</h2>
-            <div className="mt-5 space-y-4">
-              {JOURNEY_STEPS.map((step, index) => {
-                const completed = stepCompletion[step.key];
-
-                return (
-                  <div key={step.key} className="relative pl-2">
-                    {index < JOURNEY_STEPS.length - 1 ? (
-                      <span className="absolute left-6 top-12 h-8 border-l-2 border-slate-200" aria-hidden="true" />
-                    ) : null}
-
-                    <div className="flex items-center gap-3">
-                      <span
-                        className={`flex h-10 w-10 items-center justify-center rounded-full border text-lg ${
-                          completed ? "border-green-200 bg-green-100" : "border-slate-200 bg-slate-50"
-                        }`}
-                      >
-                        {step.icon}
-                      </span>
-                      <div className="flex-1">
-                        <p className="text-sm text-slate-500">{index + 1}</p>
-                        <p className="text-lg font-semibold leading-5 text-slate-900">{step.title}</p>
-                      </div>
-                      <span className={`text-xl ${completed ? "text-green-600" : "text-slate-300"}`}>✔</span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </aside>
-
-          <section className="space-y-4 lg:col-span-6">
-            <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
-              <div className="max-h-[380px] space-y-4 overflow-y-auto pr-1">
+          <section className="space-y-4 lg:col-span-8">
+            <div className="rounded-2xl border border-[#d2deea] bg-white p-4 shadow-[0_14px_36px_rgba(6,33,61,0.08)] sm:p-5">
+              <div className="max-h-[340px] space-y-4 overflow-y-auto pr-1">
                 {messages.map((message) => {
                   const isUser = message.role === "user";
 
@@ -301,7 +376,9 @@ export default function Home() {
                             : "flex max-w-[92%] items-start gap-2 sm:max-w-[80%]"
                         }
                       >
-                        <span className="mt-1 text-base">{isUser ? "👤" : "🤖"}</span>
+                        <span className="mt-1 text-base text-slate-600">
+                          {isUser ? <User size={16} /> : <Bot size={16} />}
+                        </span>
                         <div
                           className={
                             isUser
@@ -321,7 +398,9 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+            <InputBox isLoading={loading} onSubmit={handleSubmit} quickExamples={QUICK_EXAMPLES} />
+
+            <div className="rounded-2xl border border-[#d2deea] bg-white p-4 shadow-[0_14px_36px_rgba(6,33,61,0.08)] sm:p-5">
               <div className="flex items-center justify-between gap-3">
                 <h2 className="text-2xl font-semibold text-slate-900">Eligible Scheme Dashboard</h2>
                 {recommendedSchemes.length > 0 ? (
@@ -331,18 +410,76 @@ export default function Home() {
                 ) : null}
               </div>
 
-              {benefitsSummary ? (
-                <div className="mt-4 rounded-xl border border-blue-100 bg-blue-50/60 p-3 text-sm text-slate-700">
-                  <p>
-                    Total estimated benefits: <strong>₹{benefitsSummary.total_monetary_benefits.toLocaleString("en-IN")}</strong>
-                  </p>
-                  <p className="mt-1">
-                    Major support types:{" "}
-                    {benefitsSummary.major_support_types.length > 0
-                      ? benefitsSummary.major_support_types.join(", ")
-                      : "Not identified"}
-                  </p>
-                </div>
+              {recommendedSchemes.length > 0 ? (
+                <>
+                  <div className="mt-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+                    <p className="text-sm font-semibold uppercase tracking-[0.08em] text-slate-600">Impact Summary</p>
+                    <p className="mt-2 text-sm text-slate-700">Based on your profile you may qualify for:</p>
+                    <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-800">
+                      <li>{recommendedSchemes.length} government welfare schemes</li>
+                      <li>{formatCurrency(supportTarget)} potential annual support</li>
+                      <li>
+                        {categorySummary.length > 0
+                          ? `${categorySummary.slice(0, 3).map((category) => category.replace(/\b\w/g, (char) => char.toUpperCase())).join(", ")} assistance`
+                          : "General assistance"}
+                      </li>
+                    </ul>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {categorySummary.length > 0 ? (
+                        categorySummary.map((category) => (
+                          <span
+                            key={category}
+                            className="inline-flex items-center gap-1 rounded-full border border-[#ccdae8] bg-[#f8fbff] px-3 py-1 text-xs font-semibold text-[#325778]"
+                          >
+                            {CATEGORY_ICON_MAP[category] ?? <Waves size={14} />}
+                            {category.replace(/\b\w/g, (char) => char.toUpperCase())}
+                          </span>
+                        ))
+                      ) : (
+                        <span className="text-sm text-slate-600">General Support</span>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="mt-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+                    <p className="text-sm font-semibold uppercase tracking-[0.08em] text-slate-600">Your Estimated Government Support</p>
+                    <p className="mt-2 text-3xl font-bold text-[#0a4470]">₹{animatedBenefit.toLocaleString("en-IN")}</p>
+                    <div className="mt-3">
+                      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#21517e]">Potential Annual Support</p>
+                      <div className="mt-2 h-3 w-full overflow-hidden rounded-full bg-[#d9e6f7]">
+                        <div className="h-full rounded-full bg-[#0a6aa1] transition-all duration-200" style={{ width: `${benefitProgress}%` }} />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+                    <p className="text-sm font-semibold uppercase tracking-[0.08em] text-slate-600">Application Readiness</p>
+                    <div className="mt-3 flex items-center gap-3">
+                      <div className="h-3 w-full overflow-hidden rounded-full bg-slate-200">
+                        <div className={`h-full rounded-full transition-all duration-500 ${readinessBarColor}`} style={{ width: `${readinessScore}%` }} />
+                      </div>
+                      <span className="min-w-12 text-right text-sm font-semibold text-slate-800">{readinessScore}%</span>
+                    </div>
+                    <p className="mt-2 text-xs text-slate-600">Live readiness score updates as vault documents are toggled.</p>
+                    <div className="mt-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
+                      <p className="text-xs text-slate-600">
+                        Ready documents: {availableRequiredDocumentsCount} / {allRequiredDocuments.length}
+                      </p>
+                      {missingDocuments.length > 0 ? (
+                        <>
+                          <p className="font-semibold text-slate-900">Missing Documents:</p>
+                          <ul className="mt-1 list-disc space-y-1 pl-5">
+                            {missingDocuments.slice(0, 6).map((document) => (
+                              <li key={document}>{document}</li>
+                            ))}
+                          </ul>
+                        </>
+                      ) : (
+                        <p className="font-semibold text-slate-900">Your application profile is ready.</p>
+                      )}
+                    </div>
+                  </div>
+                </>
               ) : null}
 
               {eligibilityImprovements.length > 0 ? (
@@ -357,60 +494,57 @@ export default function Home() {
               ) : null}
 
               {recommendedSchemes.length > 0 ? (
-                <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
-                  {recommendedSchemes.map((scheme) => {
-                    const tags = getSchemeTags(scheme);
-
-                    return (
-                      <article key={scheme.scheme_id} className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
-                        <h3 className="line-clamp-2 min-h-12 text-base font-semibold text-slate-900">{scheme.name}</h3>
-                        <p className="mt-1 text-sm font-medium text-slate-700">Match: {Math.round(scheme.match_score)}%</p>
-
-                        <div className="mt-2 flex flex-wrap gap-2">
-                          {tags.map((tag) => (
-                            <span key={`${scheme.scheme_id}-${tag}`} className="rounded-full bg-slate-100 px-2.5 py-1 text-xs text-slate-700">
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-
-                        <button
-                          type="button"
-                          onClick={() => setSelectedSchemeId(scheme.scheme_id)}
-                          className="mt-4 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 transition hover:bg-slate-50"
-                        >
-                          View Details
-                        </button>
-                      </article>
-                    );
-                  })}
-                </div>
+                <>
+                  <div className="mt-4 flex items-center justify-between gap-2">
+                    <h3 className="text-lg font-semibold text-slate-900">Top Recommended Schemes (Top 3)</h3>
+                    {!showAllSchemes && recommendedSchemes.length > 3 ? (
+                      <button
+                        type="button"
+                        onClick={() => setShowAllSchemes(true)}
+                        className="rounded-lg border border-[#bfd0e2] bg-[#eef4fb] px-3 py-1.5 text-sm font-semibold text-[#2b4f72] transition hover:bg-[#e3edf8]"
+                      >
+                        View All Eligible Schemes
+                      </button>
+                    ) : null}
+                  </div>
+                  <div className="mt-3 grid grid-cols-1 gap-3 xl:grid-cols-2">
+                    {displayedSchemes.map((scheme, index) => (
+                      <SchemeCard
+                        key={scheme.scheme_id}
+                        scheme={scheme}
+                        rank={index + 1}
+                        readyDocumentsCount={(scheme.documents_required ?? []).filter((document) => isDocumentInVault(document)).length}
+                        totalDocumentsCount={(scheme.documents_required ?? []).length}
+                        isReadyToApply={
+                          (scheme.documents_required ?? []).length === 0 ||
+                          (scheme.documents_required ?? []).every((document) => isDocumentInVault(document))
+                        }
+                        onDownloadChecklist={downloadChecklist}
+                      />
+                    ))}
+                  </div>
+                </>
               ) : (
                 <div className="mt-4 rounded-xl border border-dashed border-slate-300 bg-slate-50 p-4 text-sm text-slate-600">
                   Submit your situation above to view recommended schemes.
                 </div>
               )}
-
-              {selectedScheme ? (
-                <div className="mt-4">
-                  <SchemeCard scheme={selectedScheme} rank={selectedSchemeRank} />
-                </div>
-              ) : null}
             </div>
           </section>
 
-          <aside className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm lg:col-span-3">
+          <aside className="rounded-2xl border border-[#d2deea] bg-white p-5 shadow-[0_14px_36px_rgba(6,33,61,0.08)] lg:col-span-4">
             <h2 className="text-2xl font-semibold text-slate-900">Profile Module</h2>
             <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
               <p className="text-sm font-semibold uppercase tracking-[0.08em] text-slate-600">Detected Citizen Profile</p>
 
               {detectedProfile ? (
                 <div className="mt-3 space-y-2 text-sm text-slate-800">
-                  <p>👨‍🌾 Occupation: {detectedProfile.occupation ?? "N/A"}</p>
-                  <p>💰 Annual Income: {formatCurrency(detectedProfile.income)}</p>
-                  <p>🧓 Age: {detectedProfile.age ?? "N/A"}</p>
-                  <p>📍 State: {detectedProfile.state ?? "N/A"}</p>
-                  <p>🪪 Category: {detectedProfile.category ?? "N/A"}</p>
+                  <p>Occupation: {detectedProfile.occupation ?? "Unknown"}</p>
+                  <p>Education: {detectedProfile.education ?? "Not Provided"}</p>
+                  <p>Annual Income: {detectedProfile.income !== null ? formatCurrency(detectedProfile.income) : "Not Provided"}</p>
+                  <p>Age: {detectedProfile.age ?? "Unknown"}</p>
+                  <p>State: {detectedProfile.state ?? "Unknown"}</p>
+                  <p>Category: {detectedProfile.category ?? "Not Provided"}</p>
                 </div>
               ) : (
                 <p className="mt-3 text-sm text-slate-600">
@@ -418,23 +552,43 @@ export default function Home() {
                 </p>
               )}
             </div>
+
+            <div className="mt-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+              <div className="flex items-center gap-2">
+                <ShieldCheck size={18} className="text-[#1e4a76]" />
+                <p className="text-lg font-semibold text-slate-900">Citizen Document Vault</p>
+              </div>
+              <p className="mt-1 text-sm text-slate-600">Secure access to your government documents</p>
+
+              <div className="mt-3 space-y-2 rounded-xl border border-[#d5deea] bg-[#f8fbff] p-3">
+                {vaultDocuments.map((document) => (
+                  <button
+                    key={document.name}
+                    type="button"
+                    onClick={() => toggleVaultDocument(document.name)}
+                    className="flex w-full items-center justify-between gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-left text-sm transition hover:bg-[#eef4fb]"
+                  >
+                    <span className="text-slate-800">{document.name}</span>
+                    <span className="inline-flex items-center gap-1 font-semibold">
+                      {document.available ? (
+                        <>
+                          <CheckCircle2 size={16} className="text-green-600" />
+                          <span className="text-green-700">Available</span>
+                        </>
+                      ) : (
+                        <>
+                          <XCircle size={16} className="text-red-600" />
+                          <span className="text-red-700">Missing</span>
+                        </>
+                      )}
+                    </span>
+                  </button>
+                ))}
+              </div>
+              <p className="mt-2 text-xs text-slate-600">Demo Mode: Toggle documents to simulate citizen readiness.</p>
+            </div>
           </aside>
         </section>
-
-        <InputBox isLoading={loading} onSubmit={handleSubmit} quickExamples={QUICK_EXAMPLES} />
-      </div>
-
-      <div className="pointer-events-none fixed bottom-6 left-1/2 z-30 -translate-x-1/2">
-        <div className="flex flex-col items-center gap-2">
-          <button
-            type="button"
-            aria-label="Voice Assistant"
-            className="pointer-events-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-600 text-2xl text-white shadow-lg"
-          >
-            🎤
-          </button>
-          <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm">Voice Assistant</span>
-        </div>
       </div>
     </main>
   );
