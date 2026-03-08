@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import { Bot, BriefcaseBusiness, CheckCircle2, GraduationCap, HeartPulse, House, Landmark, ShieldCheck, Sprout, User, Waves, XCircle } from "lucide-react";
+import { Bot, BriefcaseBusiness, CheckCircle2, GraduationCap, HeartPulse, House, ShieldCheck, Sprout, User, Waves, XCircle } from "lucide-react";
 
 import InputBox from "@/components/InputBox";
 import SchemeCard from "@/components/SchemeCard";
@@ -58,10 +58,10 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8
 const BENEFIT_BENCHMARK_INR = 200000;
 
 const VAULT_DOCUMENTS: Array<{ name: string; available: boolean }> = [
-  { name: "Aadhaar Card", available: true },
-  { name: "Bank Passbook", available: true },
+  { name: "Aadhaar Card", available: false },
+  { name: "Bank Passbook", available: false },
   { name: "Income Certificate", available: false },
-  { name: "Mobile Number Verified", available: true },
+  { name: "Mobile Number Verified", available: false },
   { name: "Land Ownership Record", available: false },
 ];
 
@@ -345,12 +345,14 @@ export default function Home() {
       <div className="mx-auto w-full max-w-7xl space-y-4 pb-8">
         <header className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-[#cfdae7] bg-white/90 px-4 py-3 shadow-[0_14px_36px_rgba(6,33,61,0.08)] sm:px-6">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#e9f1fb] text-[#1e456f]">
-              <Landmark size={20} />
-            </div>
+            <img
+              src="/saarthi-logo.png"
+              alt="SAARTHI Logo"
+              className="h-12 w-12 rounded-full object-cover border border-slate-200 shadow-sm"
+            />
             <div>
-              <p className="text-2xl font-bold leading-tight text-slate-900">SAARTHI</p>
-              <p className="text-sm text-slate-600">National Welfare Discovery Assistant</p>
+              <p className="text-2xl font-bold text-slate-900">SAARTHI</p>
+              <p className="text-sm text-slate-600">Smart Accessible Assistance</p>
             </div>
           </div>
 
@@ -560,32 +562,40 @@ export default function Home() {
               </div>
               <p className="mt-1 text-sm text-slate-600">Secure access to your government documents</p>
 
-              <div className="mt-3 space-y-2 rounded-xl border border-[#d5deea] bg-[#f8fbff] p-3">
-                {vaultDocuments.map((document) => (
-                  <button
-                    key={document.name}
-                    type="button"
-                    onClick={() => toggleVaultDocument(document.name)}
-                    className="flex w-full items-center justify-between gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-left text-sm transition hover:bg-[#eef4fb]"
-                  >
-                    <span className="text-slate-800">{document.name}</span>
-                    <span className="inline-flex items-center gap-1 font-semibold">
-                      {document.available ? (
-                        <>
-                          <CheckCircle2 size={16} className="text-green-600" />
-                          <span className="text-green-700">Available</span>
-                        </>
-                      ) : (
-                        <>
-                          <XCircle size={16} className="text-red-600" />
-                          <span className="text-red-700">Missing</span>
-                        </>
-                      )}
-                    </span>
-                  </button>
-                ))}
-              </div>
-              <p className="mt-2 text-xs text-slate-600">Demo Mode: Toggle documents to simulate citizen readiness.</p>
+              {recommendedSchemes.length > 0 ? (
+                <>
+                  <div className="mt-3 space-y-2 rounded-xl border border-[#d5deea] bg-[#f8fbff] p-3">
+                    {vaultDocuments.map((document) => (
+                      <button
+                        key={document.name}
+                        type="button"
+                        onClick={() => toggleVaultDocument(document.name)}
+                        className="flex w-full items-center justify-between gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-left text-sm transition hover:bg-[#eef4fb]"
+                      >
+                        <span className="text-slate-800">{document.name}</span>
+                        <span className="inline-flex items-center gap-1 font-semibold">
+                          {document.available ? (
+                            <>
+                              <CheckCircle2 size={16} className="text-green-600" />
+                              <span className="text-green-700">Uploaded</span>
+                            </>
+                          ) : (
+                            <>
+                              <XCircle size={16} className="text-red-600" />
+                              <span className="text-red-700">Missing</span>
+                            </>
+                          )}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                  <p className="mt-2 text-xs text-slate-600">Demo Mode: Toggle documents to simulate citizen readiness.</p>
+                </>
+              ) : (
+                <div className="mt-3 rounded-xl border border-dashed border-slate-300 bg-slate-50 p-3 text-sm text-slate-600">
+                  Submit your situation to analyze required documents.
+                </div>
+              )}
             </div>
           </aside>
         </section>
