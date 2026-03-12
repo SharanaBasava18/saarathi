@@ -28,15 +28,22 @@ export default function SplashScreen() {
 
   return (
     <div
-      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-gradient-to-br from-emerald-900 via-teal-900 to-slate-900 transition-opacity duration-500 ${
+      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center transition-opacity duration-700 ${
         isVisible ? "opacity-100" : "opacity-0"
       }`}
+      style={{
+        background: "linear-gradient(135deg, #064e3b 0%, #0f766e 35%, #0c4a6e 70%, #1e1b4b 100%)",
+      }}
     >
-      <div className="animate-pulse rounded-2xl border border-emerald-300/30 bg-emerald-400/10 p-5">
-        <Shield className="h-16 w-16 text-emerald-400" />
+      <div className="relative">
+        <div className="absolute -inset-8 rounded-full bg-emerald-400/20 blur-2xl" />
+        <div className="relative rounded-2xl border border-emerald-400/20 bg-emerald-500/10 p-5 shadow-2xl backdrop-blur-sm">
+          <Shield className="h-14 w-14 text-emerald-300" />
+        </div>
       </div>
-      <h1 className="mt-6 text-4xl font-bold tracking-widest text-white sm:text-5xl">SAARTHI</h1>
-      <p className="mt-2 text-sm text-gray-300 sm:text-base">Empowering Citizens, Enabling Inclusion</p>
+      <h1 className="mt-7 text-4xl font-extrabold tracking-[0.2em] text-white sm:text-5xl">SAARTHI</h1>
+      <p className="mt-3 text-sm font-medium tracking-wider text-emerald-200/80 sm:text-base">Empowering Citizens, Enabling Inclusion</p>
+      <div className="mt-8 h-0.5 w-16 rounded-full bg-gradient-to-r from-transparent via-emerald-400/60 to-transparent" />
     </div>
   );
 }

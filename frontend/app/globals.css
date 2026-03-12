@@ -3,16 +3,23 @@
 @tailwind utilities;
 
 :root {
-  --bg-top: #f3efe3;
-  --bg-bottom: #e7f3f1;
-  --panel: #fffdfa;
-  --stroke: #d7dfde;
-  --text-main: #182635;
-  --text-soft: #4c5d6f;
+  --bg-top: #f8fafc;
+  --bg-bottom: #f1f5f9;
+  --panel: #ffffff;
+  --stroke: #e2e8f0;
+  --text-main: #0f172a;
+  --text-soft: #64748b;
 }
 
+/* ── Reset ─────────────────────────────────────────────── */
 * {
   box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 html,
@@ -24,8 +31,185 @@ body {
 
 body {
   color: var(--text-main);
+  background: var(--bg-top);
+}
+
+/* ── Living mesh gradient background ───────────────────── */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.7;
   background:
-    radial-gradient(circle at 10% 10%, rgba(234, 111, 76, 0.15), transparent 40%),
-    radial-gradient(circle at 92% 80%, rgba(0, 124, 109, 0.12), transparent 38%),
+    radial-gradient(ellipse 80% 60% at 5% 10%, rgba(16,185,129,0.10), transparent 50%),
+    radial-gradient(ellipse 60% 80% at 95% 90%, rgba(99,102,241,0.07), transparent 50%),
+    radial-gradient(ellipse 50% 50% at 50% 40%, rgba(20,184,166,0.06), transparent 50%),
+    radial-gradient(ellipse 30% 40% at 70% 20%, rgba(168,85,247,0.04), transparent 50%),
     linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+  animation: meshDrift 25s ease-in-out infinite alternate;
+}
+
+@keyframes meshDrift {
+  0%   { transform: scale(1) translate(0, 0); }
+  50%  { transform: scale(1.05) translate(-1%, 1%); }
+  100% { transform: scale(1) translate(1%, -1%); }
+}
+
+/* ── Polish ────────────────────────────────────────────── */
+::selection {
+  background: rgba(16,185,129,0.20);
+  color: #064e3b;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(100,116,139,0.2);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(100,116,139,0.35);
+}
+
+/* ── Entrance: fade-slide-up ───────────────────────────── */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-slide-up {
+  animation: fadeSlideUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ── Entrance: fade-in ─────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease both;
+}
+
+/* ── Entrance: scale-fade ──────────────────────────────── */
+@keyframes scaleFade {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-scale-fade {
+  animation: scaleFade 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ── Hero headline shimmer ─────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-shimmer {
+  background-size: 200% auto;
+  animation: shimmer 5s ease-in-out infinite;
+}
+
+/* ── CTA glow pulse ────────────────────────────────────── */
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow:
+      0 0 24px rgba(16,185,129,0.12),
+      0 12px 48px rgba(16,185,129,0.08);
+  }
+  50% {
+    box-shadow:
+      0 0 48px rgba(16,185,129,0.22),
+      0 12px 64px rgba(16,185,129,0.16);
+  }
+}
+
+.animate-glow-pulse {
+  animation: glowPulse 3.5s ease-in-out infinite;
+}
+
+/* ── Indigo glow for operator CTA ──────────────────────── */
+@keyframes indigoGlow {
+  0%, 100% {
+    box-shadow:
+      0 0 20px rgba(99,102,241,0.10),
+      0 8px 32px rgba(99,102,241,0.06);
+  }
+  50% {
+    box-shadow:
+      0 0 40px rgba(99,102,241,0.20),
+      0 8px 48px rgba(99,102,241,0.12);
+  }
+}
+
+.animate-indigo-glow {
+  animation: indigoGlow 3.5s ease-in-out infinite;
+}
+
+/* ── Floating animation ────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* ── Progress bar fill ─────────────────────────────────── */
+@keyframes barGrow {
+  from { width: 0; }
+}
+
+.animate-bar-grow {
+  animation: barGrow 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ── Glass morphism utility ────────────────────────────── */
+.glass {
+  background: rgba(255,255,255,0.65);
+  backdrop-filter: blur(20px) saturate(1.6);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
+  border: 1px solid rgba(255,255,255,0.35);
+}
+
+.glass-strong {
+  background: rgba(255,255,255,0.82);
+  backdrop-filter: blur(24px) saturate(1.8);
+  -webkit-backdrop-filter: blur(24px) saturate(1.8);
+  border: 1px solid rgba(255,255,255,0.45);
+}
+
+/* ── Subtle noise texture (for premium surfaces) ───────── */
+.noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  border-radius: inherit;
 }

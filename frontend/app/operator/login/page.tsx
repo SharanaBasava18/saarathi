@@ -51,12 +51,12 @@ export default function OperatorLoginPage() {
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
+    <main className="flex min-h-screen items-center justify-center px-4">
       <div className="w-full max-w-md">
         {/* Brand header */}
         <div className="mb-6 text-center">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-50 shadow-lg shadow-indigo-100">
-            <ShieldCheck className="h-7 w-7 text-indigo-600" />
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-indigo-700 shadow-lg shadow-indigo-500/20">
+            <ShieldCheck className="h-7 w-7 text-white" />
           </div>
           <h1 className="mt-4 text-2xl font-bold tracking-tight text-indigo-600">
             SAARTHI CSC Portal
@@ -69,7 +69,7 @@ export default function OperatorLoginPage() {
         {/* Login card */}
         <form
           onSubmit={handleSubmit}
-          className="rounded-2xl border border-[#d6e3ef] bg-white p-8 shadow-[0_20px_50px_rgba(6,33,61,0.08)]"
+          className="glass-strong rounded-2xl p-8 shadow-premium"
         >
           {/* Phone */}
           <label className="block text-sm font-medium text-slate-700">
@@ -82,7 +82,7 @@ export default function OperatorLoginPage() {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder="e.g. 9999999991"
-              className="w-full rounded-xl border border-slate-300 py-2.5 pl-10 pr-4 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
+              className="w-full rounded-xl border border-slate-200/60 bg-white/90 py-2.5 pl-10 pr-4 text-sm outline-none backdrop-blur-sm transition-all duration-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/20 focus:shadow-[0_0_0_4px_rgba(99,102,241,0.06)]"
             />
           </div>
 
@@ -97,7 +97,7 @@ export default function OperatorLoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
-              className="w-full rounded-xl border border-slate-300 py-2.5 pl-10 pr-4 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
+              className="w-full rounded-xl border border-slate-200/60 bg-white/90 py-2.5 pl-10 pr-4 text-sm outline-none backdrop-blur-sm transition-all duration-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/20 focus:shadow-[0_0_0_4px_rgba(99,102,241,0.06)]"
             />
           </div>
 
@@ -112,7 +112,7 @@ export default function OperatorLoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-md shadow-indigo-200 transition hover:bg-indigo-700 disabled:opacity-60"
+            className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-700 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/15 transition-all duration-200 hover:shadow-xl hover:brightness-110 disabled:opacity-60"
           >
             {loading ? (
               <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-indigo-200 border-t-white" />
@@ -123,7 +123,7 @@ export default function OperatorLoginPage() {
           </button>
 
           {/* Demo hint */}
-          <p className="mt-5 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-center text-xs text-slate-500">
+          <p className="mt-5 rounded-xl border border-slate-200/50 bg-slate-50/60 px-3 py-2.5 text-center text-xs text-slate-500 backdrop-blur-sm">
             <span className="font-semibold text-slate-600">Demo credentials:</span>{" "}
             Phone <span className="font-mono">9999999991</span> / Password{" "}
             <span className="font-mono">admin123</span>

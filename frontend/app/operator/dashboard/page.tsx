@@ -164,12 +164,12 @@ export default function OperatorDashboardPage() {
 
   /* ── Render ─────────────────────────────────────────────── */
   return (
-    <main className="min-h-screen bg-slate-50 px-4 py-8 sm:px-6">
+    <main className="min-h-screen px-4 py-8 sm:px-6">
       <div className="mx-auto w-full max-w-6xl">
         {/* ── Header ────────────────────────────────────── */}
-        <header className="flex flex-col gap-4 rounded-2xl border border-[#d6e3ef] bg-white/95 p-5 shadow-[0_14px_36px_rgba(6,33,61,0.06)] sm:flex-row sm:items-center sm:justify-between">
+        <header className="glass-strong flex flex-col gap-4 rounded-2xl p-5 shadow-glass sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-700 text-white shadow-md shadow-indigo-500/15">
               <LayoutDashboard className="h-5 w-5" />
             </div>
             <div>
@@ -184,7 +184,7 @@ export default function OperatorDashboardPage() {
           </div>
           <button
             onClick={logout}
-            className="flex items-center gap-1.5 self-start rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-500 transition hover:bg-indigo-50 hover:text-indigo-600"
+            className="flex items-center gap-1.5 self-start rounded-xl border border-slate-200/50 bg-white/60 px-3 py-2 text-sm font-medium text-slate-500 backdrop-blur-sm transition-all duration-200 hover:bg-indigo-50/80 hover:text-indigo-600 hover:shadow-sm"
           >
             <LogOut className="h-4 w-4" />
             Logout
@@ -214,7 +214,7 @@ export default function OperatorDashboardPage() {
 
         {/* ── Empty state ───────────────────────────────── */}
         {!loading && requests.length === 0 && (
-          <div className="mt-6 rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center">
+          <div className="mt-6 rounded-2xl border border-dashed border-slate-300/50 bg-white/40 p-10 text-center backdrop-blur-sm">
             <FileText className="mx-auto h-10 w-10 text-slate-300" />
             <p className="mt-3 text-sm text-slate-500">
               No citizen requests assigned to you yet.
@@ -224,11 +224,16 @@ export default function OperatorDashboardPage() {
 
         {/* ── Request cards ─────────────────────────────── */}
         {!loading && requests.length > 0 && (
-          <section className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
-            {requests.map((req) => (
+          <section className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-2">
+            {requests.map((req, index) => (
               <article
                 key={req.request_id}
-                className="group relative rounded-2xl border border-[#d6e3ef] bg-white p-5 shadow-sm transition hover:shadow-md"
+                style={{ animationDelay: `${index * 60}ms` }}
+                className={`animate-fade-slide-up group relative overflow-hidden rounded-2xl border-l-4 bg-white/90 p-5 shadow-glass backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-premium ${
+                  req.status === "Scheduled"
+                    ? "border-l-teal-500"
+                    : "border-l-amber-500"
+                }`}
               >
                 {/* Top: name + status */}
                 <div className="flex items-start justify-between gap-3">
@@ -242,7 +247,7 @@ export default function OperatorDashboardPage() {
                 <div className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-slate-600">
                   <p className="flex items-center gap-1.5">
                     <Phone className="h-3.5 w-3.5 text-slate-400" />
-                    {req.phone}
+                    <span className="font-mono text-xs tracking-wide">{req.phone}</span>
                   </p>
                   <p className="flex items-center gap-1.5">
                     <MapPin className="h-3.5 w-3.5 text-slate-400" />
@@ -254,13 +259,13 @@ export default function OperatorDashboardPage() {
                   </p>
                   <p className="flex items-center gap-1.5">
                     <FileText className="h-3.5 w-3.5 text-slate-400" />
-                    Recommended Schemes: {req.recommended_schemes_count}
+                    <span className="font-mono text-xs">{req.recommended_schemes_count}</span> Schemes
                   </p>
                 </div>
 
                 {/* Appointment info (when scheduled) */}
                 {req.appointment_time && (
-                  <div className="mt-3 flex items-center gap-2 rounded-lg border border-teal-200 bg-teal-50 px-3 py-2 text-sm text-teal-800">
+                  <div className="mt-3 flex items-center gap-2 rounded-xl border border-teal-200/50 bg-teal-50/60 px-3 py-2 text-sm text-teal-800 backdrop-blur-sm">
                     <CalendarClock className="h-4 w-4 shrink-0" />
                     <span>
                       <span className="font-semibold">Appointment:</span>{" "}
@@ -275,7 +280,7 @@ export default function OperatorDashboardPage() {
                     <button
                       onClick={() => schedule(req.request_id, "Auto")}
                       disabled={schedulingId === req.request_id}
-                      className="flex items-center gap-1.5 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 disabled:opacity-60"
+                      className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-700 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-indigo-500/15 transition-all duration-200 hover:shadow-lg hover:brightness-110 disabled:opacity-60"
                     >
                       {schedulingId === req.request_id ? (
                         <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -293,7 +298,7 @@ export default function OperatorDashboardPage() {
                         );
                         setManualTime("");
                       }}
-                      className="flex items-center gap-1.5 rounded-lg border border-indigo-200 bg-white px-4 py-2 text-sm font-semibold text-indigo-600 transition hover:bg-indigo-50"
+                      className="flex items-center gap-1.5 rounded-xl border border-indigo-200/60 bg-white/80 px-4 py-2 text-sm font-semibold text-indigo-600 backdrop-blur-sm transition-all duration-200 hover:bg-indigo-50/80 hover:shadow-sm"
                     >
                       <Clock className="h-3.5 w-3.5" />
                       Manual Schedule
@@ -303,12 +308,12 @@ export default function OperatorDashboardPage() {
 
                 {/* Manual datetime picker */}
                 {manualOpenId === req.request_id && req.status === "Pending" && (
-                  <div className="mt-3 flex flex-wrap items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 p-3">
+                  <div className="mt-3 flex flex-wrap items-center gap-2 rounded-xl border border-slate-200/50 bg-slate-50/60 p-3 backdrop-blur-sm">
                     <input
                       type="datetime-local"
                       value={manualTime}
                       onChange={(e) => setManualTime(e.target.value)}
-                      className="rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20"
+                      className="rounded-xl border border-slate-200/60 bg-white/90 px-3 py-2 text-sm outline-none backdrop-blur-sm transition-all duration-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/20"
                     />
                     <button
                       onClick={() =>
@@ -317,7 +322,7 @@ export default function OperatorDashboardPage() {
                       disabled={
                         !manualTime || schedulingId === req.request_id
                       }
-                      className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700 disabled:opacity-60"
+                      className="rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-700 px-4 py-2 text-sm font-semibold text-white shadow-md shadow-indigo-500/15 transition-all duration-200 hover:brightness-110 disabled:opacity-60"
                     >
                       Confirm
                     </button>

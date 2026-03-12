@@ -89,24 +89,24 @@ export default function OperatorDashboardPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#edf4f9] via-[#f6fbff] to-[#f0f6ef] px-4 py-8 sm:px-6">
+    <main className="min-h-screen px-4 py-8 sm:px-6">
       <div className="mx-auto w-full max-w-5xl">
-        <header className="rounded-2xl border border-[#cfdae7] bg-white/95 p-5 shadow-[0_14px_36px_rgba(6,33,61,0.08)]">
-          <h1 className="text-2xl font-bold text-slate-900">CSC Operator Dashboard</h1>
+        <header className="glass-strong rounded-2xl p-5 shadow-glass">
+          <h1 className="text-xl font-bold tracking-tight text-slate-900">CSC Operator Dashboard</h1>
           <p className="mt-1 text-sm text-slate-600">Manage citizen assistance requests and schedule support calls.</p>
         </header>
 
         {error ? (
-          <div className="mt-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</div>
+          <div className="mt-4 rounded-lg border border-red-200/60 bg-red-50/60 p-3 text-sm text-red-700 backdrop-blur-sm">{error}</div>
         ) : null}
 
         {loading ? (
-          <div className="mt-4 rounded-xl border border-slate-200 bg-white p-4 text-sm text-slate-600">Loading assistance requests...</div>
+          <div className="mt-4 rounded-xl border border-slate-200/50 bg-white/60 p-4 text-sm text-slate-600 backdrop-blur-sm">Loading assistance requests...</div>
         ) : (
           <section className="mt-4 grid grid-cols-1 gap-3">
             {requests.length > 0 ? (
               requests.map((request) => (
-                <article key={request.id} className="rounded-xl border border-[#d0dbe8] bg-white p-4 shadow-sm">
+                <article key={request.id} className="glass rounded-2xl p-4 shadow-glass transition-all duration-300 hover:shadow-premium">
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div className="space-y-1 text-sm text-slate-700">
                       <p className="text-lg font-semibold text-slate-900">{request.citizen_name}</p>
@@ -124,31 +124,31 @@ export default function OperatorDashboardPage() {
                         setOperatorName(request.assigned_csc_operator ?? "");
                         setScheduleTime(request.scheduled_time ?? "");
                       }}
-                      className="rounded-lg border border-[#b8cbe2] bg-[#eef4fb] px-3 py-2 text-sm font-semibold text-[#2a4f74] hover:bg-[#e3edf8]"
+                      className="rounded-xl border border-indigo-200/60 bg-indigo-50/60 px-3 py-2 text-sm font-semibold text-indigo-700 backdrop-blur-sm transition-all duration-200 hover:bg-indigo-100/80 hover:shadow-sm"
                     >
                       Schedule Assistance
                     </button>
                   </div>
 
                   {activeFormFor === request.id ? (
-                    <div className="mt-3 grid grid-cols-1 gap-2 rounded-lg border border-slate-200 bg-slate-50 p-3 sm:grid-cols-[1fr_1fr_auto]">
+                    <div className="mt-3 grid grid-cols-1 gap-2 rounded-xl border border-slate-200/50 bg-slate-50/60 p-3 backdrop-blur-sm sm:grid-cols-[1fr_1fr_auto]">
                       <input
                         value={operatorName}
                         onChange={(event) => setOperatorName(event.target.value)}
                         placeholder="Operator Name"
-                        className="rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:border-[#4f7aa8]"
+                        className="rounded-xl border border-slate-200/60 bg-white/90 px-3 py-2 text-sm outline-none backdrop-blur-sm transition-all duration-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/20"
                       />
                       <input
                         value={scheduleTime}
                         onChange={(event) => setScheduleTime(event.target.value)}
                         placeholder="Schedule Time"
-                        className="rounded-md border border-slate-300 px-3 py-2 text-sm outline-none focus:border-[#4f7aa8]"
+                        className="rounded-xl border border-slate-200/60 bg-white/90 px-3 py-2 text-sm outline-none backdrop-blur-sm transition-all duration-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/20"
                       />
                       <button
                         type="button"
                         onClick={() => scheduleAssistance(request.id)}
                         disabled={submittingFor === request.id}
-                        className="rounded-md bg-[#0c5a8f] px-3 py-2 text-sm font-semibold text-white hover:bg-[#084872] disabled:opacity-70"
+                        className="rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-700 px-3 py-2 text-sm font-semibold text-white shadow-md shadow-indigo-500/15 transition-all duration-200 hover:brightness-110 disabled:opacity-70"
                       >
                         {submittingFor === request.id ? "Saving..." : "Confirm"}
                       </button>
@@ -157,7 +157,7 @@ export default function OperatorDashboardPage() {
                 </article>
               ))
             ) : (
-              <div className="rounded-xl border border-dashed border-slate-300 bg-slate-50 p-4 text-sm text-slate-600">
+              <div className="rounded-xl border border-dashed border-slate-300/50 bg-white/40 p-4 text-sm text-slate-500 backdrop-blur-sm">
                 No citizen assistance requests available yet.
               </div>
             )}

@@ -112,34 +112,34 @@ export default function IvrDemoPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#ecf1fa] via-[#f7fbff] to-[#ecf5f1] px-4 py-8">
+    <main className="min-h-screen px-4 py-8">
       <div className="mx-auto w-full max-w-xl">
-        <section className="rounded-[2rem] border border-[#d3ddef] bg-[#0f2238] p-5 text-white shadow-[0_22px_50px_rgba(10,30,52,0.35)]">
+        <section className="rounded-[2rem] border border-white/10 bg-gradient-to-b from-[#0f2238] to-[#0a1929] p-5 text-white shadow-[0_22px_50px_rgba(10,30,52,0.4)]">
           <div className="flex items-center justify-between">
-            <p className="text-sm uppercase tracking-[0.18em] text-[#bcd3ec]">IVR Demo Simulation</p>
-            <PhoneCall size={18} className="text-[#8ce3bf]" />
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">IVR Demo Simulation</p>
+            <PhoneCall size={18} className="text-emerald-400" />
           </div>
 
-          <div className="mt-4 rounded-2xl bg-[#132b46] p-4">
-            <p className="text-xs uppercase tracking-[0.12em] text-[#9ec0de]">Call Status</p>
+          <div className="mt-4 rounded-2xl bg-white/[0.06] p-4 backdrop-blur-sm">
+            <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-400">Call Status</p>
             <p className="mt-1 text-lg font-semibold">
               {loading ? "Analyzing caller details..." : `Step ${step} of 4`}
             </p>
 
             {step === 1 ? (
               <div className="mt-3 space-y-2">
-                <p className="text-sm text-[#d4e2f0]">Speak or type your situation and SAARTHI IVR will identify schemes.</p>
+                <p className="text-sm text-slate-300">Speak or type your situation and SAARTHI IVR will identify schemes.</p>
                 <textarea
                   value={ivrInput}
                   onChange={(event) => setIvrInput(event.target.value)}
                   placeholder="Example: I am a farmer with low income and need irrigation support"
-                  className="min-h-28 w-full rounded-xl border border-[#2d4865] bg-[#0f2238] p-3 text-sm text-white outline-none focus:border-[#66b6ff]"
+                  className="min-h-28 w-full rounded-xl border border-white/10 bg-white/[0.05] p-3 text-sm text-white outline-none backdrop-blur-sm transition-all duration-200 placeholder:text-slate-500 focus:border-emerald-500/40 focus:ring-2 focus:ring-emerald-500/10"
                 />
                 <button
                   type="button"
                   onClick={submitIvrInput}
                   disabled={loading}
-                  className="w-full rounded-xl bg-[#1c7db9] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#166896] disabled:opacity-70"
+                  className="w-full rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-emerald-500/15 transition-all duration-200 hover:brightness-110 disabled:opacity-70"
                 >
                   Start IVR Analysis
                 </button>
@@ -148,16 +148,16 @@ export default function IvrDemoPage() {
 
             {step >= 3 ? (
               <div className="mt-3 space-y-2">
-                <p className="text-sm font-semibold text-[#d7ebff]">Top 3 Schemes</p>
+                <p className="text-sm font-semibold text-slate-200">Top 3 Schemes</p>
                 {topThree.length > 0 ? (
                   topThree.map((scheme) => (
-                    <div key={scheme.scheme_id} className="rounded-lg border border-[#2f506f] bg-[#173552] p-3">
+                    <div key={scheme.scheme_id} className="rounded-xl border border-white/10 bg-white/[0.05] p-3 backdrop-blur-sm">
                       <p className="text-sm font-semibold text-white">{scheme.name}</p>
-                      <p className="text-xs text-[#b6cde4]">Match Score: {Math.round(scheme.match_score)}%</p>
+                      <p className="text-xs text-slate-400">Match Score: {Math.round(scheme.match_score)}%</p>
                     </div>
                   ))
                 ) : (
-                  <p className="text-sm text-[#d4e2f0]">No schemes found for this simulation.</p>
+                  <p className="text-sm text-slate-300">No schemes found for this simulation.</p>
                 )}
 
                 <div className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-2">
@@ -168,7 +168,7 @@ export default function IvrDemoPage() {
                         window.open(topThree[0].apply_link, "_blank", "noopener,noreferrer");
                       }
                     }}
-                    className="rounded-lg border border-[#3b6f95] bg-[#1a5f88] px-3 py-2 text-sm font-semibold text-white hover:bg-[#124a6d]"
+                    className="rounded-xl border border-white/10 bg-white/[0.08] px-3 py-2 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-200 hover:bg-white/[0.12]"
                   >
                     Press 1 -&gt; Apply
                   </button>
@@ -178,46 +178,46 @@ export default function IvrDemoPage() {
                       setShowAssistForm((current) => !current);
                       setStep(4);
                     }}
-                    className="rounded-lg border border-[#5d7d4a] bg-[#365f3f] px-3 py-2 text-sm font-semibold text-white hover:bg-[#2a4f31]"
+                    className="rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-3 py-2 text-sm font-semibold text-emerald-300 backdrop-blur-sm transition-all duration-200 hover:bg-emerald-500/20"
                   >
                     Press 2 -&gt; Request CSC Assistance
                   </button>
                 </div>
 
                 {showAssistForm ? (
-                  <div className="space-y-2 rounded-lg border border-[#2f506f] bg-[#102a42] p-3">
+                  <div className="space-y-2 rounded-xl border border-white/10 bg-white/[0.04] p-3 backdrop-blur-sm">
                     <input
                       value={name}
                       onChange={(event) => setName(event.target.value)}
                       placeholder="Name"
-                      className="w-full rounded-md border border-[#325273] bg-[#0f2238] px-3 py-2 text-sm text-white outline-none focus:border-[#67b7ff]"
+                      className="w-full rounded-xl border border-white/10 bg-white/[0.05] px-3 py-2 text-sm text-white outline-none backdrop-blur-sm placeholder:text-slate-500 transition-all duration-200 focus:border-emerald-500/40"
                     />
                     <input
                       value={phone}
                       onChange={(event) => setPhone(event.target.value)}
                       placeholder="Phone Number"
-                      className="w-full rounded-md border border-[#325273] bg-[#0f2238] px-3 py-2 text-sm text-white outline-none focus:border-[#67b7ff]"
+                      className="w-full rounded-xl border border-white/10 bg-white/[0.05] px-3 py-2 text-sm text-white outline-none backdrop-blur-sm placeholder:text-slate-500 transition-all duration-200 focus:border-emerald-500/40"
                     />
                     <input
                       value={stateName}
                       onChange={(event) => setStateName(event.target.value)}
                       placeholder="State"
-                      className="w-full rounded-md border border-[#325273] bg-[#0f2238] px-3 py-2 text-sm text-white outline-none focus:border-[#67b7ff]"
+                      className="w-full rounded-xl border border-white/10 bg-white/[0.05] px-3 py-2 text-sm text-white outline-none backdrop-blur-sm placeholder:text-slate-500 transition-all duration-200 focus:border-emerald-500/40"
                     />
                     <button
                       type="button"
                       onClick={requestCscAssistance}
-                      className="w-full rounded-md bg-[#1c7db9] px-3 py-2 text-sm font-semibold text-white hover:bg-[#166896]"
+                      className="w-full rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 px-3 py-2 text-sm font-semibold text-white shadow-lg shadow-emerald-500/15 transition-all duration-200 hover:brightness-110"
                     >
                       Submit Assistance Request
                     </button>
-                    {assistMessage ? <p className="text-xs text-[#9fd1f9]">{assistMessage}</p> : null}
+                    {assistMessage ? <p className="text-xs text-emerald-300/80">{assistMessage}</p> : null}
                   </div>
                 ) : null}
               </div>
             ) : null}
 
-            {error ? <p className="mt-3 text-sm text-[#ffb6b6]">{error}</p> : null}
+            {error ? <p className="mt-3 text-sm text-red-400">{error}</p> : null}
           </div>
         </section>
       </div>

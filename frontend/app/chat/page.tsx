@@ -94,7 +94,7 @@ const normalizeDoc = (value: string) => value.toLowerCase().replace(/[^a-z0-9\s]
 
 const renderProfileValue = (value: string | number | null | undefined, emptyLabel: string) => {
   if (value === null || value === undefined || value === "" || value === "Unknown" || value === "Not Provided") {
-    return <span className="rounded bg-slate-100 px-2 py-0.5 text-sm font-medium text-slate-400">{emptyLabel}</span>;
+    return <span className="rounded-md bg-slate-100/80 px-2 py-0.5 text-xs font-medium text-slate-400">{emptyLabel}</span>;
   }
 
   return <span className="font-semibold capitalize text-emerald-700">{String(value)}</span>;
@@ -452,51 +452,51 @@ export default function Home() {
   }, [detectedDocuments]);
 
   return (
-    <main className="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 sm:py-8">
-      <div className="mx-auto w-full max-w-7xl space-y-4 pb-8">
+    <main className="min-h-screen px-4 py-6 sm:px-6 sm:py-8">
+      <div className="mx-auto w-full max-w-7xl space-y-5 pb-8">
         <ImpactStats />
 
-        <section className="grid grid-cols-1 gap-4 lg:grid-cols-12">
-          <section className="space-y-4 lg:col-span-8">
+        <section className="grid grid-cols-1 gap-5 lg:grid-cols-12">
+          <section className="space-y-5 lg:col-span-8">
             <div className="flex justify-end">
-              <div className="inline-flex items-center gap-2 rounded-full border border-[#d5e0ec] bg-white px-4 py-2 text-sm font-semibold text-[#2d4f73] shadow-sm">
-                <Waves size={16} />
+              <div className="inline-flex items-center gap-2 rounded-full border border-slate-200/50 bg-white/60 px-4 py-2 text-sm font-semibold text-slate-500 shadow-sm backdrop-blur-md">
+                <Waves size={16} className="text-emerald-500" />
                 <span>Multilingual Voice Support (Powered by Bhashini)</span>
               </div>
             </div>
 
-            <div className="rounded-2xl border border-[#d2deea] bg-white p-4 shadow-[0_14px_36px_rgba(6,33,61,0.08)] sm:p-5">
-              <div className="max-h-[340px] space-y-4 overflow-y-auto pr-1">
+            <div className="glass-strong relative overflow-hidden rounded-2xl p-4 shadow-glass sm:p-5">
+              <div className="max-h-[380px] space-y-4 overflow-y-auto pr-1">
                 {messages.map((message) => {
                   const isUser = message.role === "user";
 
                   return (
-                    <div key={message.id} className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
+                    <div key={message.id} className={`animate-fade-slide-up flex ${isUser ? "justify-end" : "justify-start"}`}>
                       <div
                         className={
                           isUser
-                            ? "flex max-w-[92%] flex-row-reverse items-start gap-2 sm:max-w-[80%]"
-                            : "flex max-w-[92%] items-start gap-2 sm:max-w-[80%]"
+                            ? "flex max-w-[92%] flex-row-reverse items-start gap-2.5 sm:max-w-[78%]"
+                            : "flex max-w-[92%] items-start gap-2.5 sm:max-w-[78%]"
                         }
                       >
-                        <span className="mt-1 text-base text-slate-600">
-                          {isUser ? <User size={16} /> : <Bot size={16} />}
+                        <span className={`mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full shadow-sm ${isUser ? "bg-gradient-to-br from-emerald-500 to-teal-600 text-white" : "bg-white text-slate-400 ring-1 ring-slate-200/60"}`}>
+                          {isUser ? <User size={14} /> : <Bot size={14} />}
                         </span>
                         <div
                           className={
                             isUser
-                              ? "rounded-xl bg-emerald-600 px-4 py-3 text-sm text-white shadow-sm"
-                              : "rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 shadow-sm"
+                              ? "rounded-2xl rounded-tr-md bg-gradient-to-br from-emerald-600 to-teal-600 px-4 py-3 text-sm text-white shadow-lg shadow-emerald-500/10"
+                              : "rounded-2xl rounded-tl-md border border-white/50 bg-white/90 px-4 py-3 text-sm text-slate-700 shadow-md shadow-slate-900/[0.03] backdrop-blur-sm"
                           }
                         >
-                          <p className="whitespace-pre-wrap leading-6">{message.text}</p>
+                          <p className="whitespace-pre-wrap leading-relaxed">{message.text}</p>
                         </div>
                       </div>
                     </div>
                   );
                 })}
 
-                {loading ? <div className="flex justify-start">{loadingBubble}</div> : null}
+                {loading ? <div className="animate-fade-in flex justify-start">{loadingBubble}</div> : null}
                 <div ref={messagesEndRef} />
               </div>
             </div>
@@ -504,16 +504,16 @@ export default function Home() {
             <InputBox isLoading={loading} onSubmit={handleSubmit} quickExamples={QUICK_EXAMPLES} detectedLanguage={detectedLanguage} />
 
             {detectedLanguage === "hi" ? (
-              <div className="rounded-xl border border-[#f0c986] bg-[#fff5e5] p-3 text-sm font-medium text-[#8e5a0c]">
+              <div className="animate-fade-slide-up rounded-xl border border-amber-200/50 bg-amber-50/60 p-3 text-sm font-medium text-amber-700 backdrop-blur-sm">
                 Input detected in Hindi. Automatically translated for analysis.
               </div>
             ) : null}
 
-            <div className="rounded-2xl border border-[#d2deea] bg-white p-4 shadow-[0_14px_36px_rgba(6,33,61,0.08)] sm:p-5">
+            <div className="glass-strong relative overflow-hidden rounded-2xl p-5 shadow-glass sm:p-6">
               <div className="flex items-center justify-between gap-3">
-                <h2 className="text-2xl font-semibold text-slate-900">Eligible Scheme Dashboard</h2>
+                <h2 className="text-xl font-bold tracking-tight text-slate-900">Eligible Scheme Dashboard</h2>
                 {recommendedSchemes.length > 0 ? (
-                  <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
+                  <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700">
                     {recommendedSchemes.length} schemes
                   </span>
                 ) : null}
@@ -521,14 +521,14 @@ export default function Home() {
 
               {recommendedSchemes.length > 0 ? (
                 <>
-                  <div className="mt-4 rounded-xl border border-[#f0c986] bg-[#fff5e5] p-4 shadow-sm">
-                    <p className="text-sm font-semibold text-[#8e5a0c]">
+                  <div className="mt-4 rounded-xl border border-amber-200/50 bg-amber-50/60 p-4 shadow-sm backdrop-blur-sm">
+                    <p className="text-sm font-semibold text-amber-700">
                       Potential Unclaimed Welfare: {potentialUnclaimedSchemes} schemes
                     </p>
                   </div>
 
-                  <div className="mt-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-                    <p className="text-sm font-semibold uppercase tracking-[0.08em] text-slate-600">Impact Summary</p>
+                  <div className="mt-4 rounded-xl border border-slate-200/50 bg-white/80 p-4 shadow-sm backdrop-blur-sm">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500">Impact Summary</p>
                     <p className="mt-2 text-sm text-slate-700">Based on your profile you may qualify for:</p>
                     <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-800">
                       <li>{recommendedSchemes.length} government welfare schemes</li>
@@ -539,12 +539,12 @@ export default function Home() {
                           : "General assistance"}
                       </li>
                     </ul>
-                    <div className="mt-3 flex flex-wrap gap-2">
+                    <div className="mt-3 flex flex-wrap gap-1.5">
                       {categorySummary.length > 0 ? (
                         categorySummary.map((category) => (
                           <span
                             key={category}
-                            className="inline-flex items-center gap-1 rounded-full border border-[#ccdae8] bg-[#f8fbff] px-3 py-1 text-xs font-semibold text-[#325778]"
+                            className="inline-flex items-center gap-1 rounded-full border border-slate-200/50 bg-white/80 px-3 py-1 text-[11px] font-semibold text-slate-600 backdrop-blur-sm"
                           >
                             {CATEGORY_ICON_MAP[category] ?? <Waves size={14} />}
                             {category.replace(/\b\w/g, (char) => char.toUpperCase())}
@@ -556,27 +556,27 @@ export default function Home() {
                     </div>
                   </div>
 
-                  <div className="mt-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-                    <p className="text-sm font-semibold uppercase tracking-[0.08em] text-slate-600">Your Estimated Government Support</p>
-                    <p className="mt-2 text-3xl font-bold text-[#0a4470]">₹{animatedBenefit.toLocaleString("en-IN")}</p>
+                  <div className="mt-4 rounded-xl border border-slate-200/50 bg-white/80 p-4 shadow-sm backdrop-blur-sm">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500">Your Estimated Government Support</p>
+                    <p className="mt-2 text-3xl font-extrabold tracking-tight text-slate-900">₹{animatedBenefit.toLocaleString("en-IN")}</p>
                     <div className="mt-3">
-                      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#21517e]">Potential Annual Support</p>
-                      <div className="mt-2 h-3 w-full overflow-hidden rounded-full bg-[#d9e6f7]">
-                        <div className="h-full rounded-full bg-[#0a6aa1] transition-all duration-200" style={{ width: `${benefitProgress}%` }} />
+                      <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500">Potential Annual Support</p>
+                      <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-slate-200/60">
+                        <div className="animate-bar-grow h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 transition-all duration-200" style={{ width: `${benefitProgress}%` }} />
                       </div>
                     </div>
                   </div>
 
-                  <div className="mt-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-                    <p className="text-sm font-semibold uppercase tracking-[0.08em] text-slate-600">Application Readiness</p>
+                  <div className="mt-4 rounded-xl border border-slate-200/50 bg-white/80 p-4 shadow-sm backdrop-blur-sm">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500">Application Readiness</p>
                     <div className="mt-3 flex items-center gap-3">
-                      <div className="h-3 w-full overflow-hidden rounded-full bg-slate-200">
+                      <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200/60">
                         <div className={`h-full rounded-full transition-all duration-500 ${readinessBarColor}`} style={{ width: `${readinessScore}%` }} />
                       </div>
                       <span className="min-w-12 text-right text-sm font-semibold text-slate-800">{readinessScore}%</span>
                     </div>
                     <p className="mt-2 text-xs text-slate-600">Live readiness score updates as vault documents are toggled.</p>
-                    <div className="mt-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700">
+                    <div className="mt-3 rounded-xl border border-slate-200/50 bg-slate-50/80 p-3 text-sm text-slate-600">
                       <p className="text-xs text-slate-600">
                         Ready documents: {availableRequiredDocumentsCount} / {allRequiredDocuments.length}
                       </p>
@@ -598,7 +598,7 @@ export default function Home() {
               ) : null}
 
               {eligibilityImprovements.length > 0 ? (
-                <div className="mt-3 rounded-xl border border-amber-100 bg-amber-50/70 p-3 text-sm text-slate-700">
+                <div className="mt-3 rounded-xl border border-amber-200/50 bg-amber-50/50 p-3 text-sm text-slate-600 backdrop-blur-sm">
                   <p className="font-semibold text-slate-900">Eligibility Explanation</p>
                   <ul className="mt-1 list-disc space-y-1 pl-5">
                     {eligibilityImprovements.map((improvement) => (
@@ -611,12 +611,12 @@ export default function Home() {
               {recommendedSchemes.length > 0 ? (
                 <>
                   <div className="mt-4 flex items-center justify-between gap-2">
-                    <h3 className="text-lg font-semibold text-slate-900">Top Recommended Schemes (Top 3)</h3>
+                    <h3 className="text-base font-bold text-slate-900">Top Recommended Schemes (Top 3)</h3>
                     {!showAllSchemes && recommendedSchemes.length > 3 ? (
                       <button
                         type="button"
                         onClick={() => setShowAllSchemes(true)}
-                        className="rounded-lg border border-[#bfd0e2] bg-[#eef4fb] px-3 py-1.5 text-sm font-semibold text-[#2b4f72] transition hover:bg-[#e3edf8]"
+                        className="rounded-full border border-emerald-200/60 bg-emerald-50/60 px-4 py-1.5 text-sm font-semibold text-emerald-700 backdrop-blur-sm transition-all duration-300 hover:bg-emerald-100/80 hover:shadow-sm"
                       >
                         View All Eligible Schemes
                       </button>
@@ -641,7 +641,7 @@ export default function Home() {
                   </div>
                 </>
               ) : (
-                <div className="mt-4 rounded-xl border border-dashed border-slate-300 bg-slate-50 p-4 text-sm text-slate-600">
+                <div className="mt-4 rounded-xl border border-dashed border-slate-300/60 bg-white/40 p-5 text-center text-sm text-slate-500 backdrop-blur-sm">
                   Submit your situation above to view recommended schemes.
                 </div>
               )}
@@ -651,7 +651,7 @@ export default function Home() {
               <button
                 type="button"
                 onClick={openAssistanceModal}
-                className="flex w-full items-center justify-center gap-2.5 rounded-2xl bg-emerald-600 px-6 py-4 text-base font-semibold text-white shadow-sm transition hover:bg-emerald-700"
+                className="flex w-full items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 px-6 py-4 text-base font-bold text-white shadow-lg shadow-emerald-500/20 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-emerald-500/25 active:scale-[0.98]"
               >
                 <HelpCircle className="h-5 w-5" />
                 Need Help Applying? Request CSC Assistance
@@ -659,13 +659,13 @@ export default function Home() {
             )}
           </section>
 
-          <aside className="rounded-2xl border border-[#d2deea] bg-white p-5 shadow-[0_14px_36px_rgba(6,33,61,0.08)] lg:col-span-4">
-            <h2 className="text-2xl font-semibold text-slate-900">Profile Module</h2>
-            <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
-              <p className="text-sm font-semibold uppercase tracking-[0.08em] text-slate-600">Detected Citizen Profile</p>
+          <aside className="glass-strong relative overflow-hidden rounded-2xl p-5 shadow-glass lg:col-span-4">
+            <h2 className="text-lg font-bold tracking-tight text-slate-900">Profile Module</h2>
+            <div className="mt-4 rounded-xl border border-slate-200/50 bg-slate-50/60 p-4">
+              <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-slate-500">Detected Citizen Profile</p>
 
               {detectedProfile ? (
-                <div className="mt-3 divide-y divide-slate-200 rounded-xl border border-slate-200 bg-white">
+                <div className="mt-3 divide-y divide-slate-200/60 rounded-xl border border-slate-200/50 bg-white/90 backdrop-blur-sm">
                   <div className="flex items-center justify-between px-3 py-2.5 text-sm">
                     <span className="font-medium text-slate-500">Occupation</span>
                     {renderProfileValue(detectedProfile.occupation, "Unknown")}
@@ -698,16 +698,16 @@ export default function Home() {
               )}
             </div>
 
-            <div className="mt-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+            <div className="mt-4 rounded-xl border border-slate-200/50 bg-white/80 p-4 shadow-sm backdrop-blur-sm">
               <div className="flex items-center gap-2">
-                <ShieldCheck size={18} className="text-[#1e4a76]" />
-                <p className="text-lg font-semibold text-slate-900">Citizen Document Vault</p>
+                <ShieldCheck size={18} className="text-emerald-600" />
+                <p className="text-base font-bold text-slate-900">Citizen Document Vault</p>
               </div>
               <p className="mt-1 text-sm text-slate-600">Secure access to your government documents</p>
 
               {detectedDocuments ? (
-                <div className="mt-3 rounded-xl border border-[#d4e2f0] bg-[#f8fbff] p-3">
-                  <p className="text-sm font-semibold text-[#264b70]">Documents detected via DigiLocker simulation.</p>
+                <div className="mt-3 rounded-xl border border-slate-200/50 bg-slate-50/60 p-3">
+                  <p className="text-sm font-semibold text-slate-700">Documents detected via DigiLocker simulation.</p>
                   <ul className="mt-2 space-y-1 text-sm text-slate-700">
                     {vaultDocuments.map((document) => (
                       <li key={`detected-${document.name}`} className="flex items-center gap-2">
@@ -723,13 +723,13 @@ export default function Home() {
 
               {recommendedSchemes.length > 0 ? (
                 <>
-                  <div className="mt-3 space-y-2 rounded-xl border border-[#d5deea] bg-[#f8fbff] p-3">
+                  <div className="mt-3 space-y-2 rounded-xl border border-slate-200/50 bg-slate-50/60 p-3">
                     {vaultDocuments.map((document) => (
                       <button
                         key={document.name}
                         type="button"
                         onClick={() => toggleVaultDocument(document.name)}
-                        className="flex w-full items-center justify-between gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-left text-sm transition hover:bg-[#eef4fb]"
+                        className="flex w-full items-center justify-between gap-2 rounded-xl border border-slate-200/50 bg-white/90 px-3 py-2.5 text-left text-sm backdrop-blur-sm transition-all duration-200 hover:bg-slate-50/80 hover:shadow-sm"
                       >
                         <span className="text-slate-800">{document.name}</span>
                         <span className="inline-flex items-center gap-1 font-semibold">
@@ -751,7 +751,7 @@ export default function Home() {
                   <p className="mt-2 text-xs text-slate-600">Demo Mode: Toggle documents to simulate citizen readiness.</p>
                 </>
               ) : (
-                <div className="mt-3 rounded-xl border border-dashed border-slate-300 bg-slate-50 p-3 text-sm text-slate-600">
+                <div className="mt-3 rounded-xl border border-dashed border-slate-300/50 bg-slate-50/40 p-3 text-sm text-slate-500 backdrop-blur-sm">
                   Submit your situation to analyze required documents.
                 </div>
               )}
@@ -761,8 +761,8 @@ export default function Home() {
       </div>
 
       {isAssistanceModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-          <div className="relative w-full max-w-lg rounded-2xl border border-[#d6e3ef] bg-white p-6 shadow-2xl sm:p-8">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/30 px-4 backdrop-blur-md">
+          <div className="animate-scale-fade relative w-full max-w-lg rounded-3xl border border-white/40 bg-white/95 p-6 shadow-premium-lg backdrop-blur-xl sm:p-8">
             <button
               onClick={closeAssistanceModal}
               className="absolute right-4 top-4 rounded-lg p-1 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
@@ -772,7 +772,7 @@ export default function Home() {
 
             {assistanceStatus === "success" && assignedOperator ? (
               <div className="flex flex-col items-center text-center">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100">
+                <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-100 to-teal-100 shadow-md shadow-emerald-500/10">
                   <UserCheck className="h-8 w-8 text-emerald-600" />
                 </div>
                 <h2 className="mt-4 text-xl font-bold text-slate-900">Success! (Demo Mode)</h2>
@@ -781,7 +781,7 @@ export default function Home() {
                 </p>
                 <button
                   onClick={closeAssistanceModal}
-                  className="mt-6 rounded-xl bg-gradient-to-r from-[#0c5a8f] to-[#1a7bc4] px-6 py-2.5 text-sm font-semibold text-white shadow-md transition hover:shadow-lg"
+                  className="mt-6 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-emerald-500/15 transition-all duration-200 hover:shadow-xl hover:brightness-110"
                 >
                   Close
                 </button>
@@ -789,7 +789,7 @@ export default function Home() {
             ) : (
               <>
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#0c5a8f] to-[#1a7bc4]">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-md shadow-emerald-500/15">
                     <HelpCircle className="h-5 w-5 text-white" />
                   </div>
                   <div>
@@ -806,7 +806,7 @@ export default function Home() {
                       value={assistanceForm.name}
                       onChange={(e) => setAssistanceForm({ ...assistanceForm, name: e.target.value })}
                       placeholder="e.g. Ramesh Kumar"
-                      className="mt-1 w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm outline-none transition focus:border-[#1a7bc4] focus:ring-2 focus:ring-[#1a7bc4]/20"
+                      className="mt-1 w-full rounded-xl border border-slate-200/60 bg-white/90 px-3.5 py-2.5 text-sm outline-none backdrop-blur-sm transition-all duration-200 focus:border-emerald-300 focus:ring-2 focus:ring-emerald-500/20 focus:shadow-[0_0_0_4px_rgba(16,185,129,0.06)]"
                     />
                   </div>
                   <div>
@@ -816,7 +816,7 @@ export default function Home() {
                       value={assistanceForm.phone}
                       onChange={(e) => setAssistanceForm({ ...assistanceForm, phone: e.target.value })}
                       placeholder="e.g. 9876543210"
-                      className="mt-1 w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm outline-none transition focus:border-[#1a7bc4] focus:ring-2 focus:ring-[#1a7bc4]/20"
+                      className="mt-1 w-full rounded-xl border border-slate-200/60 bg-white/90 px-3.5 py-2.5 text-sm outline-none backdrop-blur-sm transition-all duration-200 focus:border-emerald-300 focus:ring-2 focus:ring-emerald-500/20 focus:shadow-[0_0_0_4px_rgba(16,185,129,0.06)]"
                     />
                   </div>
                   <div>
@@ -826,7 +826,7 @@ export default function Home() {
                       value={assistanceForm.village}
                       onChange={(e) => setAssistanceForm({ ...assistanceForm, village: e.target.value })}
                       placeholder="e.g. Gokak"
-                      className="mt-1 w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm outline-none transition focus:border-[#1a7bc4] focus:ring-2 focus:ring-[#1a7bc4]/20"
+                      className="mt-1 w-full rounded-xl border border-slate-200/60 bg-white/90 px-3.5 py-2.5 text-sm outline-none backdrop-blur-sm transition-all duration-200 focus:border-emerald-300 focus:ring-2 focus:ring-emerald-500/20 focus:shadow-[0_0_0_4px_rgba(16,185,129,0.06)]"
                     />
                   </div>
                   <div>
@@ -836,7 +836,7 @@ export default function Home() {
                       value={assistanceForm.district}
                       onChange={(e) => setAssistanceForm({ ...assistanceForm, district: e.target.value })}
                       placeholder="e.g. Belagavi"
-                      className="mt-1 w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm outline-none transition focus:border-[#1a7bc4] focus:ring-2 focus:ring-[#1a7bc4]/20"
+                      className="mt-1 w-full rounded-xl border border-slate-200/60 bg-white/90 px-3.5 py-2.5 text-sm outline-none backdrop-blur-sm transition-all duration-200 focus:border-emerald-300 focus:ring-2 focus:ring-emerald-500/20 focus:shadow-[0_0_0_4px_rgba(16,185,129,0.06)]"
                     />
                   </div>
 
@@ -849,7 +849,7 @@ export default function Home() {
                   <button
                     type="submit"
                     disabled={assistanceStatus === "loading"}
-                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-emerald-700 disabled:opacity-60"
+                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-500/15 transition-all duration-200 hover:shadow-xl hover:brightness-110 disabled:opacity-50"
                   >
                     {assistanceStatus === "loading" ? (
                       <Loader2 className="h-4 w-4 animate-spin" />

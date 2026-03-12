@@ -108,7 +108,7 @@ export default function InputBox({ isLoading, onSubmit, quickExamples, detectedL
   };
 
   return (
-    <div className="rounded-2xl border border-[var(--stroke)] bg-[var(--panel)] p-4 shadow-[0_16px_40px_rgba(9,31,56,0.08)] sm:p-5">
+    <div className="glass-strong relative rounded-2xl p-4 shadow-[0_-8px_40px_rgba(0,0,0,0.04)] sm:p-5">
       <div className="mb-3 flex flex-wrap gap-2">
         {quickExamples.map((example) => (
           <button
@@ -116,19 +116,19 @@ export default function InputBox({ isLoading, onSubmit, quickExamples, detectedL
             type="button"
             onClick={() => sendExample(example.message)}
             disabled={isLoading}
-            className="rounded-full border border-[#cbd9e6] bg-white px-3 py-1.5 text-xs font-medium text-[var(--text-main)] shadow-sm transition hover:bg-[#f2f7ff] disabled:cursor-not-allowed disabled:opacity-60"
+            className="rounded-full border border-slate-200/60 bg-white/80 px-3.5 py-1.5 text-xs font-medium text-slate-600 shadow-sm backdrop-blur-sm transition-all duration-200 hover:border-emerald-200 hover:bg-emerald-50/60 hover:text-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {example.label}
           </button>
         ))}
       </div>
 
-      <div className="flex items-end gap-2 rounded-xl border border-[#c9d6e4] bg-white p-2 shadow-inner">
+      <div className="flex items-end gap-2 rounded-xl border border-slate-200/50 bg-white/90 p-2 shadow-inner transition-all duration-300 focus-within:border-emerald-300/60 focus-within:ring-2 focus-within:ring-emerald-500/30 focus-within:shadow-[0_0_0_4px_rgba(16,185,129,0.06)]">
         <textarea
           value={draft}
           onChange={(event) => setDraft(event.target.value)}
           placeholder="e.g., I am a 28-year-old farmer from Maharashtra looking for..."
-          className="min-h-16 w-full resize-y border-0 bg-transparent p-2 text-sm leading-6 text-[var(--text-main)] outline-none"
+          className="min-h-16 w-full resize-y border-0 bg-transparent p-2 text-sm leading-6 text-slate-900 placeholder:text-slate-400 outline-none"
           onKeyDown={(event) => {
             if (event.key === "Enter" && !event.shiftKey) {
               event.preventDefault();
@@ -141,9 +141,9 @@ export default function InputBox({ isLoading, onSubmit, quickExamples, detectedL
           onClick={startVoiceCapture}
           disabled={isLoading}
           aria-label="Start voice input"
-          className={`mb-1 rounded-lg p-2 transition ${
-            isRecording ? "bg-red-100 text-red-600" : "bg-[#edf4fb] text-[#23456f] hover:bg-[#dfeaf8]"
-          } disabled:cursor-not-allowed disabled:opacity-60`}
+          className={`mb-1 rounded-xl p-2.5 transition-all duration-200 ${
+            isRecording ? "bg-red-100 text-red-600 shadow-md shadow-red-200/50" : "bg-slate-100 text-slate-500 hover:bg-slate-200/80"
+          } disabled:cursor-not-allowed disabled:opacity-50`}
         >
           <Mic size={18} />
         </button>
@@ -151,16 +151,16 @@ export default function InputBox({ isLoading, onSubmit, quickExamples, detectedL
           type="button"
           onClick={sendMessage}
           disabled={isLoading || draft.trim().length === 0}
-          className="mb-1 rounded-lg bg-emerald-600 p-2 text-white transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-60"
+          className="mb-1 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 p-2.5 text-white shadow-lg shadow-emerald-500/20 transition-all duration-200 hover:shadow-xl hover:shadow-emerald-500/30 hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50"
         >
           <SendHorizonal size={18} />
         </button>
       </div>
-      <div className="mt-2 flex items-center justify-between gap-3 text-xs text-[var(--text-soft)]">
+      <div className="mt-2.5 flex items-center justify-between gap-3 text-[11px] text-slate-400">
         <p>Press Enter to send. Shift+Enter for new line.</p>
         <p>{isRecording ? "Listening..." : "Tap mic to speak"}</p>
       </div>
-      <p className="mt-2 text-xs font-semibold text-[#315577]">
+      <p className="mt-1.5 text-[11px] font-semibold text-slate-400">
         Detected Language: {detectedLanguage === "hi" ? "Hindi" : "English"}
       </p>
     </div>

@@ -49,10 +49,12 @@ export default function ImpactStats() {
       {COUNTERS.map((counter, index) => (
         <article
           key={counter.label}
-          className="rounded-2xl border border-[#cfe0df] bg-white/95 px-4 py-3 shadow-[0_10px_26px_rgba(17,44,71,0.08)]"
+          className="animate-fade-slide-up glass-strong relative overflow-hidden rounded-2xl px-5 py-4 shadow-glass transition-all duration-300 hover:shadow-glass-lg"
+          style={{ animationDelay: `${index * 80}ms` }}
         >
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#3f617e]">{counter.label}</p>
-          <p className="mt-1 text-2xl font-bold text-[#0f4f7a]">{formatCounter(values[index] ?? 0, counter)}</p>
+          <div className="absolute -right-4 -top-4 h-20 w-20 rounded-full bg-gradient-to-br from-emerald-400/10 to-teal-400/5 blur-xl" />
+          <p className="relative text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">{counter.label}</p>
+          <p className="relative mt-1.5 text-2xl font-extrabold tracking-tight text-slate-900">{formatCounter(values[index] ?? 0, counter)}</p>
         </article>
       ))}
     </section>
