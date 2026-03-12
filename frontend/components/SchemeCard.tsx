@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-
 type Scheme = {
   scheme_id: string;
   name: string;
@@ -24,11 +22,8 @@ type SchemeCardProps = {
   totalDocumentsCount: number;
   isReadyToApply: boolean;
   onDownloadChecklist: (scheme: Scheme) => void;
-  detectedProfile?: Record<string, unknown> | null;
-  recommendedSchemes?: Scheme[];
+  onRequestAssistance?: () => void;
 };
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000";
 
 const getMatchMeta = (score: number): { label: string; className: string } => {
   if (score >= 80) {
@@ -59,63 +54,11 @@ export default function SchemeCard({
   totalDocumentsCount,
   isReadyToApply,
   onDownloadChecklist,
-  detectedProfile,
-  recommendedSchemes = [],
+  onRequestAssistance,
 }: SchemeCardProps) {
   const matchMeta = getMatchMeta(scheme.match_score);
   const score = Math.max(0, Math.min(100, Math.round(scheme.match_score)));
   const categories = (scheme.scheme_categories ?? []).map((item) => item.toLowerCase());
-  const [showAssistanceModal, setShowAssistanceModal] = useState(false);
-  const [citizenName, setCitizenName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [stateName, setStateName] = useState("");
-  const [districtName, setDistrictName] = useState("");
-  const [villageName, setVillageName] = useState("");
-  const [submitMessage, setSubmitMessage] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const submitAssistance = async () => {
-    if (!citizenName.trim() || !phoneNumber.trim() || !stateName.trim()) {
-      setSubmitMessage("Please fill in all fields.");
-      return;
-    }
-
-    setIsSubmitting(true);
-    setSubmitMessage("");
-    try {
-      const response = await fetch(`${API_BASE_URL}/request-assistance`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          citizen_name: citizenName,
-          phone_number: phoneNumber,
-          state: stateName,
-          district: districtName,
-          village: villageName,
-          detected_profile: detectedProfile ?? {},
-          recommended_schemes: recommendedSchemes,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Request failed with status ${response.status}`);
-      }
-
-      setSubmitMessage("Your request has been sent to a CSC operator. You will be contacted soon.");
-      setCitizenName("");
-      setPhoneNumber("");
-      setStateName("");
-      setDistrictName("");
-      setVillageName("");
-    } catch (error) {
-      const message = error instanceof Error ? error.message : "Unable to submit assistance request.";
-      setSubmitMessage(message);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
 
   return (
     <>
@@ -232,7 +175,7 @@ export default function SchemeCard({
               href={scheme.apply_link}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center rounded-lg bg-[#0c5a8f] px-3 py-1.5 text-sm font-semibold text-white transition hover:bg-[#084872]"
+              className="inline-flex items-center rounded-lg bg-emerald-50 px-3 py-1.5 text-sm font-semibold text-emerald-600 transition hover:bg-emerald-100"
             >
               Apply Now
             </a>
@@ -246,10 +189,9 @@ export default function SchemeCard({
             <button
               type="button"
               onClick={() => {
-                setSubmitMessage("");
-                setShowAssistanceModal(true);
+                if (onRequestAssistance) onRequestAssistance();
               }}
-              className="inline-flex items-center rounded-lg border border-[#d7b87d] bg-[#fff5e6] px-3 py-1.5 text-sm font-semibold text-[#8a5c09] transition hover:bg-[#ffecce]"
+              className="inline-flex items-center rounded-lg bg-emerald-50 px-3 py-1.5 text-sm font-semibold text-emerald-600 transition hover:bg-emerald-100"
             >
               Request CSC Assistance
             </button>
@@ -257,64 +199,6 @@ export default function SchemeCard({
         </div>
 
       </article>
-
-      {showAssistanceModal ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-3">
-          <div className="w-full max-w-md rounded-xl border border-[#d8e2ef] bg-white p-4 shadow-xl">
-            <div className="flex items-center justify-between gap-3">
-              <h4 className="text-lg font-semibold text-slate-900">Request CSC Assistance</h4>
-              <button
-                type="button"
-                onClick={() => setShowAssistanceModal(false)}
-                className="rounded-md border border-slate-300 px-2 py-1 text-xs font-semibold text-slate-600 hover:bg-slate-50"
-              >
-                Close
-              </button>
-            </div>
-            <div className="mt-3 space-y-2">
-              <input
-                value={citizenName}
-                onChange={(event) => setCitizenName(event.target.value)}
-                placeholder="Name"
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-[#4f7aa8]"
-              />
-              <input
-                value={phoneNumber}
-                onChange={(event) => setPhoneNumber(event.target.value)}
-                placeholder="Phone Number"
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-[#4f7aa8]"
-              />
-              <input
-                value={stateName}
-                onChange={(event) => setStateName(event.target.value)}
-                placeholder="State"
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-[#4f7aa8]"
-              />
-              <input
-                value={districtName}
-                onChange={(event) => setDistrictName(event.target.value)}
-                placeholder="District"
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-[#4f7aa8]"
-              />
-              <input
-                value={villageName}
-                onChange={(event) => setVillageName(event.target.value)}
-                placeholder="Village / City"
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-[#4f7aa8]"
-              />
-            </div>
-            <button
-              type="button"
-              onClick={submitAssistance}
-              disabled={isSubmitting}
-              className="mt-3 w-full rounded-lg bg-[#0c5a8f] px-4 py-2 text-sm font-semibold text-white hover:bg-[#084872] disabled:opacity-70"
-            >
-              {isSubmitting ? "Submitting..." : "Submit Request"}
-            </button>
-            {submitMessage ? <p className="mt-2 text-sm text-[#1f4a78]">{submitMessage}</p> : null}
-          </div>
-        </div>
-      ) : null}
     </>
   );
 }

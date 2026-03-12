@@ -49,10 +49,10 @@ export default function ImpactStats() {
       {COUNTERS.map((counter, index) => (
         <article
           key={counter.label}
-          className="rounded-2xl border border-[#cfe0df] bg-white/95 p-4 shadow-[0_10px_26px_rgba(17,44,71,0.1)]"
+          className="rounded-2xl border border-[#cfe0df] bg-white/95 px-4 py-3 shadow-[0_10px_26px_rgba(17,44,71,0.08)]"
         >
           <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#3f617e]">{counter.label}</p>
-          <p className="mt-2 text-3xl font-bold text-[#0f4f7a]">{formatCounter(values[index] ?? 0, counter)}</p>
+          <p className="mt-1 text-2xl font-bold text-[#0f4f7a]">{formatCounter(values[index] ?? 0, counter)}</p>
         </article>
       ))}
     </section>

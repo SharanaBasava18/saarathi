@@ -109,40 +109,25 @@ export default function InputBox({ isLoading, onSubmit, quickExamples, detectedL
 
   return (
     <div className="rounded-2xl border border-[var(--stroke)] bg-[var(--panel)] p-4 shadow-[0_16px_40px_rgba(9,31,56,0.08)] sm:p-5">
-      <div className="mb-3 rounded-xl border border-[#d9e2eb] bg-[#f6f9fc] p-3">
-        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.12em] text-[var(--text-soft)]">Common Situations</p>
-        <div className="flex flex-wrap gap-2">
-          {quickExamples.map((example) => (
-            <button
-              key={example.label}
-              type="button"
-              onClick={() => sendExample(example.message)}
-              disabled={isLoading}
-              className="rounded-full border border-[#cbd9e6] bg-white px-3 py-1.5 text-xs font-medium text-[var(--text-main)] shadow-sm transition hover:bg-[#f2f7ff] disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              {example.label}
-            </button>
-          ))}
-        </div>
+      <div className="mb-3 flex flex-wrap gap-2">
+        {quickExamples.map((example) => (
+          <button
+            key={example.label}
+            type="button"
+            onClick={() => sendExample(example.message)}
+            disabled={isLoading}
+            className="rounded-full border border-[#cbd9e6] bg-white px-3 py-1.5 text-xs font-medium text-[var(--text-main)] shadow-sm transition hover:bg-[#f2f7ff] disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {example.label}
+          </button>
+        ))}
       </div>
-
-      <p className="mb-2 whitespace-pre-line text-sm leading-6 text-[var(--text-soft)]">
-        Describe your situation in simple language.
-        {"\n"}
-        Example:
-        {"\n"}
-        • I am a farmer with 2 acres land
-        {"\n"}
-        • I am a student aged 21
-        {"\n"}
-        • I need housing support
-      </p>
 
       <div className="flex items-end gap-2 rounded-xl border border-[#c9d6e4] bg-white p-2 shadow-inner">
         <textarea
           value={draft}
           onChange={(event) => setDraft(event.target.value)}
-          placeholder="Describe your situation here..."
+          placeholder="e.g., I am a 28-year-old farmer from Maharashtra looking for..."
           className="min-h-16 w-full resize-y border-0 bg-transparent p-2 text-sm leading-6 text-[var(--text-main)] outline-none"
           onKeyDown={(event) => {
             if (event.key === "Enter" && !event.shiftKey) {
@@ -166,7 +151,7 @@ export default function InputBox({ isLoading, onSubmit, quickExamples, detectedL
           type="button"
           onClick={sendMessage}
           disabled={isLoading || draft.trim().length === 0}
-          className="mb-1 rounded-lg bg-accent p-2 text-white transition hover:bg-[#005d7a] disabled:cursor-not-allowed disabled:opacity-60"
+          className="mb-1 rounded-lg bg-emerald-600 p-2 text-white transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-60"
         >
           <SendHorizonal size={18} />
         </button>
