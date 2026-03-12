@@ -113,6 +113,8 @@ class SchemeRecommender:
                     "scheme_categories": support_types,
                     "monetary_benefit": monetary_benefit,
                     "rationale": " ".join(reasons[:3]),
+                    "eligibility_reasons": reasons[:3],
+                    "welfare_gap": eligibility_score >= 0.8,
                 }
             )
 

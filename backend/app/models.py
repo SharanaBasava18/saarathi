@@ -20,6 +20,8 @@ class SchemeRecommendation(BaseModel):
     scheme_categories: list[str] = Field(default_factory=list)
     monetary_benefit: float | None = None
     rationale: str
+    eligibility_reasons: list[str] = Field(default_factory=list)
+    welfare_gap: bool | None = False
 
 
 class DetectedCitizenProfile(BaseModel):
@@ -37,10 +39,13 @@ class BenefitsSummary(BaseModel):
 
 
 class RecommendationResponse(BaseModel):
+    detected_language: str = "en"
+    detected_documents: dict[str, bool] = Field(default_factory=dict)
     extracted_profile: DetectedCitizenProfile
     recommendations: list[SchemeRecommendation]
     eligibility_improvements: list[str] = Field(default_factory=list)
     benefits_summary: BenefitsSummary | None = None
+    potential_unclaimed_schemes: int = 0
 
     @model_validator(mode="after")
     def populate_benefits_summary(self) -> "RecommendationResponse":
@@ -64,4 +69,5 @@ class RecommendationResponse(BaseModel):
             total_monetary_benefits=total_monetary_benefits,
             major_support_types=major_support_types,
         )
+        self.potential_unclaimed_schemes = sum(1 for scheme in self.recommendations if scheme.welfare_gap)
         return self

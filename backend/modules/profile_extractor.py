@@ -1,6 +1,10 @@
 import re
 from typing import Any
 
+from deep_translator import GoogleTranslator
+from langdetect import detect
+from langdetect.lang_detect_exception import LangDetectException
+
 
 ALLOWED_STATES = {
     "karnataka",
@@ -152,20 +156,36 @@ def _extract_flags(text: str) -> dict[str, bool]:
 
 
 def extract_profile(user_input: str) -> dict[str, Any]:
-    occupation = _extract_occupation(user_input)
+    detected_language = "en"
+    normalized_input = user_input
+
+    try:
+        detected = detect(user_input)
+        if detected == "hi":
+            detected_language = "hi"
+            normalized_input = GoogleTranslator(source="hi", target="en").translate(user_input)
+    except (LangDetectException, ValueError, TypeError):
+        detected_language = "en"
+    except Exception:
+        # Keep extraction resilient if translation service is unavailable.
+        detected_language = "en"
+
+    occupation = _extract_occupation(normalized_input)
 
     profile = {
-        "age": _extract_age(user_input),
+        "age": _extract_age(normalized_input),
         "occupation": occupation,
-        "education": _extract_education(user_input, occupation),
-        "state": _extract_state(user_input),
-        "income": _extract_income(user_input),
-        "category": _extract_category(user_input),
-        "gender": _extract_gender(user_input),
+        "education": _extract_education(normalized_input, occupation),
+        "state": _extract_state(normalized_input),
+        "income": _extract_income(normalized_input),
+        "category": _extract_category(normalized_input),
+        "gender": _extract_gender(normalized_input),
     }
-    profile.update(_extract_flags(user_input))
+    profile.update(_extract_flags(normalized_input))
     profile["missing_fields"] = _detect_missing_fields(profile)
     profile["raw_text"] = user_input
+    profile["translated_text"] = normalized_input
+    profile["detected_language"] = detected_language
     return profile
 
 

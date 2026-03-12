@@ -43,9 +43,10 @@ type InputBoxProps = {
   isLoading: boolean;
   onSubmit: (value: string) => void;
   quickExamples: QuickExample[];
+  detectedLanguage?: "en" | "hi";
 };
 
-export default function InputBox({ isLoading, onSubmit, quickExamples }: InputBoxProps) {
+export default function InputBox({ isLoading, onSubmit, quickExamples, detectedLanguage = "en" }: InputBoxProps) {
   const [draft, setDraft] = useState("");
   const [isRecording, setIsRecording] = useState(false);
 
@@ -174,6 +175,9 @@ export default function InputBox({ isLoading, onSubmit, quickExamples }: InputBo
         <p>Press Enter to send. Shift+Enter for new line.</p>
         <p>{isRecording ? "Listening..." : "Tap mic to speak"}</p>
       </div>
+      <p className="mt-2 text-xs font-semibold text-[#315577]">
+        Detected Language: {detectedLanguage === "hi" ? "Hindi" : "English"}
+      </p>
     </div>
   );
 }

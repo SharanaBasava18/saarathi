@@ -5,6 +5,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Bot, BriefcaseBusiness, CheckCircle2, GraduationCap, HeartPulse, House, ShieldCheck, Sprout, User, Waves, XCircle } from "lucide-react";
 
 import InputBox from "@/components/InputBox";
+import ImpactStats from "@/components/ImpactStats";
 import SchemeCard from "@/components/SchemeCard";
 
 type SchemeRecommendation = {
@@ -18,9 +19,13 @@ type SchemeRecommendation = {
   application_steps?: string[];
   estimated_benefit?: number | null;
   scheme_categories?: string[];
+  eligibility_reasons?: string[];
+  welfare_gap?: boolean;
 };
 
 type RecommendationResponse = {
+  detected_language: "en" | "hi";
+  detected_documents: Record<string, boolean>;
   extracted_profile: {
     age: number | null;
     occupation: string | null;
@@ -34,6 +39,7 @@ type RecommendationResponse = {
     total_monetary_benefits: number;
     major_support_types: string[];
   } | null;
+  potential_unclaimed_schemes: number;
   recommendations: SchemeRecommendation[];
 };
 
@@ -45,6 +51,9 @@ type ChatMessage = {
   detectedProfile?: RecommendationResponse["extracted_profile"];
   eligibilityImprovements?: string[];
   benefitsSummary?: RecommendationResponse["benefits_summary"];
+  potentialUnclaimedSchemes?: number;
+  detectedLanguage?: "en" | "hi";
+  detectedDocuments?: Record<string, boolean>;
 };
 
 const QUICK_EXAMPLES = [
@@ -147,6 +156,9 @@ export default function Home() {
           detectedProfile: data.extracted_profile,
           eligibilityImprovements: data.eligibility_improvements,
           benefitsSummary: data.benefits_summary,
+          potentialUnclaimedSchemes: data.potential_unclaimed_schemes,
+          detectedLanguage: data.detected_language,
+          detectedDocuments: data.detected_documents,
         },
       ]);
     } catch (err) {
@@ -185,6 +197,9 @@ export default function Home() {
   const detectedProfile = latestRecommendationMessage?.detectedProfile ?? null;
   const eligibilityImprovements = latestRecommendationMessage?.eligibilityImprovements ?? [];
   const benefitsSummary = latestRecommendationMessage?.benefitsSummary ?? null;
+  const potentialUnclaimedSchemes = latestRecommendationMessage?.potentialUnclaimedSchemes ?? 0;
+  const detectedLanguage = latestRecommendationMessage?.detectedLanguage ?? "en";
+  const detectedDocuments = latestRecommendationMessage?.detectedDocuments ?? null;
   const recommendedSchemes = latestRecommendationMessage?.recommendations ?? [];
   const topSchemes = useMemo(() => recommendedSchemes.slice(0, 3), [recommendedSchemes]);
   const displayedSchemes = showAllSchemes ? recommendedSchemes : topSchemes;
@@ -340,6 +355,34 @@ export default function Home() {
     );
   };
 
+  useEffect(() => {
+    if (!detectedDocuments) {
+      return;
+    }
+
+    const detectorMap: Record<string, string> = {
+      aadhaar: "Aadhaar Card",
+      bank_passbook: "Bank Passbook",
+      income_certificate: "Income Certificate",
+      land_record: "Land Ownership Record",
+      caste_certificate: "Caste Certificate",
+    };
+
+    setVaultDocuments((current) => {
+      const existingByName = new Map(current.map((item) => [item.name, item.available]));
+      const names = new Set<string>([...current.map((item) => item.name), ...Object.values(detectorMap)]);
+
+      return Array.from(names).map((name) => {
+        const detectorKey = Object.entries(detectorMap).find(([, mappedName]) => mappedName === name)?.[0];
+        if (detectorKey && detectorKey in detectedDocuments) {
+          return { name, available: Boolean(detectedDocuments[detectorKey]) };
+        }
+
+        return { name, available: existingByName.get(name) ?? false };
+      });
+    });
+  }, [detectedDocuments]);
+
   return (
     <main className="min-h-screen bg-gradient-to-b from-[#edf3f9] via-[#f7fbff] to-[#f2f5ef] px-4 py-6 sm:px-6 sm:py-8">
       <div className="mx-auto w-full max-w-7xl space-y-4 pb-8">
@@ -361,6 +404,8 @@ export default function Home() {
             <span>Multilingual Voice Support (Powered by Bhashini)</span>
           </div>
         </header>
+
+        <ImpactStats />
 
         <section className="grid grid-cols-1 gap-4 lg:grid-cols-12">
           <section className="space-y-4 lg:col-span-8">
@@ -400,7 +445,13 @@ export default function Home() {
               </div>
             </div>
 
-            <InputBox isLoading={loading} onSubmit={handleSubmit} quickExamples={QUICK_EXAMPLES} />
+            <InputBox isLoading={loading} onSubmit={handleSubmit} quickExamples={QUICK_EXAMPLES} detectedLanguage={detectedLanguage} />
+
+            {detectedLanguage === "hi" ? (
+              <div className="rounded-xl border border-[#f0c986] bg-[#fff5e5] p-3 text-sm font-medium text-[#8e5a0c]">
+                Input detected in Hindi. Automatically translated for analysis.
+              </div>
+            ) : null}
 
             <div className="rounded-2xl border border-[#d2deea] bg-white p-4 shadow-[0_14px_36px_rgba(6,33,61,0.08)] sm:p-5">
               <div className="flex items-center justify-between gap-3">
@@ -414,6 +465,12 @@ export default function Home() {
 
               {recommendedSchemes.length > 0 ? (
                 <>
+                  <div className="mt-4 rounded-xl border border-[#f0c986] bg-[#fff5e5] p-4 shadow-sm">
+                    <p className="text-sm font-semibold text-[#8e5a0c]">
+                      Potential Unclaimed Welfare: {potentialUnclaimedSchemes} schemes
+                    </p>
+                  </div>
+
                   <div className="mt-4 rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
                     <p className="text-sm font-semibold uppercase tracking-[0.08em] text-slate-600">Impact Summary</p>
                     <p className="mt-2 text-sm text-slate-700">Based on your profile you may qualify for:</p>
@@ -522,6 +579,8 @@ export default function Home() {
                           (scheme.documents_required ?? []).every((document) => isDocumentInVault(document))
                         }
                         onDownloadChecklist={downloadChecklist}
+                        detectedProfile={detectedProfile}
+                        recommendedSchemes={recommendedSchemes}
                       />
                     ))}
                   </div>
@@ -561,6 +620,22 @@ export default function Home() {
                 <p className="text-lg font-semibold text-slate-900">Citizen Document Vault</p>
               </div>
               <p className="mt-1 text-sm text-slate-600">Secure access to your government documents</p>
+
+              {detectedDocuments ? (
+                <div className="mt-3 rounded-xl border border-[#d4e2f0] bg-[#f8fbff] p-3">
+                  <p className="text-sm font-semibold text-[#264b70]">Documents detected via DigiLocker simulation.</p>
+                  <ul className="mt-2 space-y-1 text-sm text-slate-700">
+                    {vaultDocuments.map((document) => (
+                      <li key={`detected-${document.name}`} className="flex items-center gap-2">
+                        <span className={document.available ? "text-green-700" : "text-amber-700"}>
+                          {document.available ? "✓" : "⚠"}
+                        </span>
+                        <span>{document.name} {document.available ? "Found" : "Missing"}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
 
               {recommendedSchemes.length > 0 ? (
                 <>
