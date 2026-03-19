@@ -66,6 +66,14 @@ npm install
 npm run dev
 ```
 
+Production (recommended for demo):
+
+```bash
+cd frontend
+npm run build
+npm start
+```
+
 URLs:
 
 - Frontend: http://localhost:3000
