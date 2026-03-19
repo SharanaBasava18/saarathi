@@ -5,7 +5,8 @@ Smart Accessible Assistance for Real-Time Help and Inclusion.
 ## Demo
 
 Video demo: https://youtu.be/EuH1SeW8tCM
-Pitch Deck (PDF): pitch/SAARTHI_Hackathon_Pitch.pdf
+
+Pitch Deck (PDF): [SAARTHI_Hackathon_Pitch.pdf](./pitch/SAARTHI_Hackathon_Pitch.pdf)
 
 ## Problem
 
@@ -112,7 +113,7 @@ POST /recommend trimmed response
   },
   "recommendations": [
     {
-      "scheme_id": "pm-kisan-001",
+      "scheme_id": "SCH001",
       "name": "PM-KISAN",
       "description": "Income support scheme for farmers",
       "apply_link": "https://pmkisan.gov.in",
@@ -133,7 +134,7 @@ POST /recommend trimmed response
     "total_monetary_benefits": 6000.0,
     "major_support_types": ["income support", "agriculture"]
   },
-  "potential_unclaimed_schemes": 1
+  "potential_unclaimed_schemes": 0
 }
 ```
 
