@@ -5,6 +5,7 @@ Smart Accessible Assistance for Real-Time Help and Inclusion.
 ## Demo
 
 Video demo: https://youtu.be/EuH1SeW8tCM
+Pitch Deck (PDF): pitch/SAARTHI_Hackathon_Pitch.pdf
 
 ## Problem
 
@@ -50,6 +51,8 @@ cd backend
 python -m venv .venv
 # Activate venv (Windows PowerShell)
 .venv\Scripts\Activate.ps1
+# OR Linux/macOS
+source .venv/bin/activate
 pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
@@ -95,22 +98,42 @@ POST /recommend trimmed response
 ```json
 {
   "detected_language": "en",
-  "detected_documents": ["Aadhaar"],
+  "detected_documents": {
+    "Aadhaar Card": true,
+    "Income Certificate": false
+  },
   "extracted_profile": {
     "age": 30,
     "occupation": "farmer",
     "education": null,
     "state": "Karnataka",
-    "income": "low",
+    "income": 200000,
     "category": null
   },
   "recommendations": [
     {
-      "scheme_name": "PM-KISAN",
-      "score": 0.91
+      "scheme_id": "pm-kisan-001",
+      "name": "PM-KISAN",
+      "description": "Income support scheme for farmers",
+      "apply_link": "https://pmkisan.gov.in",
+      "documents_required": ["Aadhaar Card", "Bank Account"],
+      "application_steps": ["Visit portal", "Enter details", "Submit"],
+      "estimated_benefit": 6000,
+      "match_score": 91.5,
+      "support_types": ["income support", "agriculture"],
+      "scheme_categories": ["agriculture", "income"],
+      "monetary_benefit": 6000.0,
+      "rationale": "Farmer profile matches eligibility criteria",
+      "eligibility_reasons": ["Farm ownership", "Income level"],
+      "welfare_gap": false
     }
   ],
-  "eligibility_improvements": ["Provide income certificate"]
+  "eligibility_improvements": ["Get income certificate"],
+  "benefits_summary": {
+    "total_monetary_benefits": 6000.0,
+    "major_support_types": ["income support", "agriculture"]
+  },
+  "potential_unclaimed_schemes": 1
 }
 ```
 
