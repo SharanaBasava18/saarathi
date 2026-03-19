@@ -63,6 +63,7 @@ export default function HomePage() {
             <div className="mt-14 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
               <Link
                 href="/chat"
+                prefetch
                 className="animate-glow-pulse inline-flex items-center gap-3 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-500 px-10 py-5 text-lg font-bold text-white shadow-xl shadow-emerald-600/20 transition-all duration-300 hover:scale-[1.04] hover:ring-4 hover:ring-emerald-500/25 active:scale-[0.97]"
               >
                 Start Discovering Schemes
@@ -70,6 +71,7 @@ export default function HomePage() {
               </Link>
               <Link
                 href="/operator/login"
+                prefetch
                 className="inline-flex items-center gap-2 rounded-2xl border border-slate-200/60 bg-white/60 px-8 py-4 text-sm font-semibold text-slate-700 shadow-sm backdrop-blur-md transition-all duration-300 hover:bg-white/80 hover:shadow-md"
               >
                 CSC Operator Portal
