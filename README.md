@@ -1,257 +1,132 @@
 # SAARTHI
 
-### Smart Accessible Assistance for Real-Time Help & Inclusion
+Smart Accessible Assistance for Real-Time Help and Inclusion.
 
-AI-powered assistant that helps citizens discover **government welfare schemes they are eligible for** using natural language.
+## Demo
 
----
+Video demo: https://youtu.be/EuH1SeW8tCM
 
 ## Problem
 
-India runs **700+ welfare schemes** across healthcare, housing, agriculture, education, pensions, and employment.
-
-However, millions of eligible citizens never receive benefits because:
-
-* Information is fragmented across portals
-* Eligibility rules are complex
-* Citizens lack guidance to navigate schemes
-* Language and digital literacy barriers exist
-
-As a result, **billions of rupees in welfare benefits remain unclaimed every year**.
-
----
+Many eligible citizens miss welfare benefits because scheme information is scattered, eligibility rules are hard to understand, and guidance is limited.
 
 ## Solution
 
-**SAARTHI** is an AI-powered welfare assistant that allows citizens to simply describe their situation in natural language.
-
-Example:
-
-```
-"I am a small farmer with low income"
-```
-
-SAARTHI then:
-
-1. Extracts the citizen’s profile
-2. Matches it against government schemes
-3. Calculates eligibility scores
-4. Estimates potential benefits
-5. Provides direct application links
-
-All through a simple **chat interface**.
-
----
+SAARTHI is an AI-assisted platform that takes natural language input, extracts user profile signals, and recommends relevant welfare schemes with actionable next steps.
 
 ## Key Features
 
-### AI Citizen Profile Detection
+- Natural language input for citizen needs
+- Profile extraction from user input
+- Scheme recommendation with eligibility-aware ranking
+- Document detection hints for required paperwork
+- Eligibility improvement suggestions
+- Operator login and request management flows
+- Assistance request and scheduling support
 
-SAARTHI extracts structured information from natural language.
+## Architecture / Flow
 
-Example:
-
-User input:
-
-```
-I am a 28 year old farmer from Maharashtra with low income
-```
-
-Detected profile:
-
-```
-Occupation: Farmer
-Age: 28
-Income: Low
-State: Maharashtra
-```
-
----
-
-### Intelligent Scheme Recommendations
-
-SAARTHI ranks relevant schemes using:
-
-* semantic similarity
-* eligibility rules
-* AI match scoring
-
-Example output:
-
-```
-PM-Kisan — Eligibility Match: 92%
-Crop Insurance — 87%
-Soil Health Card — 84%
-```
-
----
-
-### Potential Benefits Summary
-
-Users instantly see what support they may receive.
-
-Example:
-
-```
-Total Monetary Benefits: ₹6000+
-Major Support Types:
-• Income support
-• Crop insurance
-• Agricultural advisory
-```
-
----
-
-### Actionable Application Guidance
-
-Each scheme includes a direct link to apply.
-
-```
-How to Apply
-Apply on MyScheme Portal
-```
-
----
-
-## Architecture
-
-```
-User Chat Interface
-        ↓
-Profile Extraction
-        ↓
-Semantic Matching (Embeddings)
-        ↓
-Eligibility Rules Engine
-        ↓
-Match Score Calculation
-        ↓
-Benefits Summary Generator
-        ↓
-Top Scheme Recommendations
-        ↓
-Apply Links
-```
-
----
+User input -> Profile extraction -> Document detection -> Scheme matching and scoring -> Recommendations -> Assistance request and operator follow-up
 
 ## Tech Stack
 
-Frontend
+- Frontend: Next.js 14, TypeScript, Tailwind CSS
+- Backend: FastAPI, Python
+- AI: Profile extraction, document detection, recommendation and eligibility logic
+- Dataset: backend/data/schemes.json
 
-* Next.js
-* TypeScript
-* TailwindCSS
+## Repo Structure
 
-Backend
+- frontend/: Next.js client application
+- backend/: FastAPI application and service modules
+- backend/data/schemes.json: Scheme dataset used by the recommendation pipeline
 
-* FastAPI
-* Python
+## Run Locally
 
-AI Layer
+Backend:
 
-* Sentence Transformers
-* Semantic Embeddings
-* Rule-based Eligibility Engine
-
-Dataset
-
-Government welfare schemes inspired by:
-
-https://www.myscheme.gov.in/
-
----
-
-## Example Interaction
-
-User:
-
-```
-I am a widow living in a rural area with low income
-```
-
-SAARTHI:
-
-```
-Detected Citizen Profile
-Occupation: Homemaker
-State: Rural Region
-Income: Low
-
-Potential Benefits
-Pension Support
-Housing Assistance
-Food Security
-
-Recommended Schemes
-
-Widow Pension — Match 94%
-PM Awas Yojana — 88%
-National Food Security Scheme — 85%
-```
-
----
-
-## Running Locally
-
-Backend
-
-```
+```bash
 cd backend
 python -m venv .venv
-source .venv/bin/activate
+# Activate venv (Windows PowerShell)
+.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
-Frontend
+Frontend:
 
-```
+```bash
 cd frontend
 npm install
 npm run dev
 ```
 
-Open:
+URLs:
 
+- Frontend: http://localhost:3000
+- Backend: http://localhost:8000
+- FastAPI Docs: http://localhost:8000/docs
+
+## Environment Variables
+
+Use frontend/.env.example as the reference file.
+
+```env
+NEXT_PUBLIC_API_BASE_URL=http://localhost:8000
 ```
-http://localhost:3000
+
+## API
+
+GET /health
+
+```json
+{ "status": "ok" }
 ```
 
----
+POST /recommend request
 
-## Impact
+```json
+{ "user_input": "I am a farmer from Karnataka with low income" }
+```
 
-SAARTHI can help:
+POST /recommend trimmed response
 
-* Citizens discover welfare benefits they deserve
-* Reduce dependence on middlemen
-* Improve government scheme awareness
-* Strengthen last-mile delivery of welfare
+```json
+{
+  "detected_language": "en",
+  "detected_documents": ["Aadhaar"],
+  "extracted_profile": {
+    "age": 30,
+    "occupation": "farmer",
+    "education": null,
+    "state": "Karnataka",
+    "income": "low",
+    "category": null
+  },
+  "recommendations": [
+    {
+      "scheme_name": "PM-KISAN",
+      "score": 0.91
+    }
+  ],
+  "eligibility_improvements": ["Provide income certificate"]
+}
+```
 
----
+Additional endpoints:
 
-## Future Enhancements
+- POST /request-assistance
+- POST /operator/login
+- GET /operator/requests/{operator_id}
+- POST /operator/schedule
 
-* Multilingual voice interaction
-* Integration with DigiLocker
-* WhatsApp-based access
-* Offline IVR support for rural users
-* Personalized welfare tracking dashboard
+## Dataset
 
----
+The recommendation engine reads schemes from backend/data/schemes.json. To add a new scheme, append a new JSON object following the same structure as existing entries and include core details like scheme name, eligibility conditions, and benefits.
 
-## Project Vision
+## Team
 
-SAARTHI aims to become an **AI welfare navigator for every citizen**, ensuring that government support reaches the people who need it most.
-
----
-
-## Authors
-
-Developed as a GovTech AI project for hackathons and social impact innovation.
-cd backend
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-uvicorn app.main:app --host 0.0.0.0 --port 8000
+- Team Lead: Sharanabasava
+- Teammates: Shreyas S, Shivraj J
+- College: Ballari Institute of Technology and Management
