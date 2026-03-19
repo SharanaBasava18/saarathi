@@ -28,7 +28,7 @@ export default function SplashScreen() {
 
   return (
     <div
-      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center transition-opacity duration-700 ${
+      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center transition-opacity duration-700 pointer-events-none ${
         isVisible ? "opacity-100" : "opacity-0"
       }`}
       style={{
