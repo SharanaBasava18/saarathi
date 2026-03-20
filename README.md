@@ -8,6 +8,22 @@ Video demo: https://youtu.be/EuH1SeW8tCM
 
 Pitch Deck (PDF): [SAARTHI_Hackathon_Pitch.pdf](./pitch/SAARTHI_Hackathon_Pitch.pdf)
 
+## Screenshots
+
+![Landing page](./pitch/saarthi-landing-page.jpeg)
+
+![Chat profile detection](./pitch/saarthi-chat-profile-detection.jpeg)
+
+![Document readiness](./pitch/saarthi-document-readiness.jpeg)
+
+![Scheme options](./pitch/saarthi-scheme-options.jpeg)
+
+![Scheme summary](./pitch/saarthi-scheme-summary.jpeg)
+
+![CSC login](./pitch/saarthi-csc-login.jpeg)
+
+![CSC dashboard](./pitch/saarthi-csc-dashboard.jpeg)
+
 ## Problem
 
 Many eligible citizens miss welfare benefits because scheme information is scattered, eligibility rules are hard to understand, and guidance is limited.
