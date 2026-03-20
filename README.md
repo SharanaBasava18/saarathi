@@ -4,7 +4,7 @@ Smart Accessible Assistance for Real-Time Help and Inclusion.
 
 ## Demo
 
-Video demo: https://youtu.be/EuH1SeW8tCM
+Video demo: [demo](https://youtu.be/Hsm-ic3hOeI)
 
 Pitch Deck (PDF): [SAARTHI_Hackathon_Pitch.pdf](./pitch/SAARTHI_Hackathon_Pitch.pdf)
 
