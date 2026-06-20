@@ -2,7 +2,11 @@ import re
 from typing import Any
 
 import numpy as np
-from sentence_transformers import SentenceTransformer
+
+try:
+    from sentence_transformers import SentenceTransformer
+except Exception:  # pragma: no cover - optional dependency fallback
+    SentenceTransformer = None
 
 from .scheme_engine import evaluate_eligibility
 
@@ -10,9 +14,30 @@ from .scheme_engine import evaluate_eligibility
 DEFAULT_APPLY_LINK = "https://www.myscheme.gov.in/"
 
 
+class _FallbackSentenceTransformer:
+    def encode(self, text: str) -> np.ndarray:
+        lowered = text.lower()
+        vector = np.zeros(27, dtype=float)
+        for char in lowered:
+            if "a" <= char <= "z":
+                vector[ord(char) - ord("a")] += 1.0
+            elif char.isspace():
+                vector[26] += 1.0
+        if vector.sum() == 0:
+            vector[26] = 1.0
+        return vector
+
+
 class SchemeRecommender:
     def __init__(self, model_name: str = "sentence-transformers/all-MiniLM-L6-v2") -> None:
-        self.model = SentenceTransformer(model_name)
+        if SentenceTransformer is None:
+            self.model = _FallbackSentenceTransformer()
+            return
+
+        try:
+            self.model = SentenceTransformer(model_name)
+        except Exception:
+            self.model = _FallbackSentenceTransformer()
 
     def _scheme_text(self, scheme: dict[str, Any]) -> str:
         tags = " ".join(scheme.get("tags", []))

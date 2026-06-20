@@ -1,9 +1,19 @@
 import re
 from typing import Any
 
-from deep_translator import GoogleTranslator
-from langdetect import detect
-from langdetect.lang_detect_exception import LangDetectException
+try:
+    from deep_translator import GoogleTranslator
+except Exception:  # pragma: no cover - optional dependency fallback
+    GoogleTranslator = None
+
+try:
+    from langdetect import detect
+    from langdetect.lang_detect_exception import LangDetectException
+except Exception:  # pragma: no cover - optional dependency fallback
+    detect = None
+
+    class LangDetectException(Exception):
+        pass
 
 
 ALLOWED_STATES = {
@@ -160,8 +170,8 @@ def extract_profile(user_input: str) -> dict[str, Any]:
     normalized_input = user_input
 
     try:
-        detected = detect(user_input)
-        if detected == "hi":
+        detected = detect(user_input) if detect is not None else "en"
+        if detected == "hi" and GoogleTranslator is not None:
             detected_language = "hi"
             normalized_input = GoogleTranslator(source="hi", target="en").translate(user_input)
     except (LangDetectException, ValueError, TypeError):
