@@ -74,6 +74,19 @@ pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
+Production backend:
+
+```bash
+cd backend
+uvicorn app.main:app --host 0.0.0.0 --port 8000
+```
+
+Backend environment:
+
+- Copy `backend/.env.example` to `backend/.env`
+- Set `CORS_ORIGINS` to the deployed frontend origin(s) for non-local environments
+- Keep `DATABASE_URL` and other settings aligned with the target environment
+
 Frontend:
 
 ```bash

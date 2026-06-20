@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     app_name: str = "SAARTHI API"
     app_version: str = "0.1.0"
     api_prefix: str = "/api"
-    cors_origins: list[str] = Field(default_factory=lambda: ["*"])
+    cors_origins: list[str] = Field(default_factory=lambda: ["http://localhost:3000"])
     database_url: str = "sqlite:///./saarathi.db"
     environment: str = "development"
 
